@@ -31,8 +31,6 @@ mariadb_actions__user_hashed_password: no                                     # 
 mariadb_actions__role: false                                                  # enable\disable "role vars" below
 mariadb_actions__role_state: "present"                                        # present - create role, absent - delete role
 mariadb_actions__role_name: ""                                                # name of role
-mariadb_actions__role_members: []                                             # for example: "username@%"" or "username@localhost"
-mariadb_actions__role_privileges: '*.*:ALL'                                   # privileges of role
 # actions -> database -> manage
 mariadb_actions__database_manage: false                                       # enable\disable "manage vars" below
 mariadb_actions__database_manage_state: "present"                             # present - create database, absent - delete database
