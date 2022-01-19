@@ -8,4 +8,4 @@ mariadb_install__deb_repo_path: "deb [arch=amd64,arm64,ppc64el] {{ mariadb_insta
 mariadb_install__rpm_repo: true
 mariadb_install__rpm_repo_url: "http://yum.mariadb.org"
 mariadb_install__rpm_repo_gpg_key: "https://yum.mariadb.org/RPM-GPG-KEY-MariaDB"
-mariadb_install__rpm_repo_path: "{{ mariadb_install__rpm_repo_url }}/{{ mariadb_install__version }}/{{ ansible_distribution | lower }}/$releasever/$basearch"
+mariadb_install__rpm_repo_path: "{{ mariadb_install__rpm_repo_url }}/{{ mariadb_install__version }}/{{ ansible_distribution | lower | replace('rocky','rhel') }}/$releasever/$basearch"

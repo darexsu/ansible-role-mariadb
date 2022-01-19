@@ -5,7 +5,7 @@
     state: present
   with_items: "{{ mariadb_install__dependencies_redhat }}"
 
-- name: add repo for debian
+- name: add repo for redhat
   block:
     - name: import mariadb gpg key
       ansible.builtin.rpm_key:
@@ -13,7 +13,7 @@
         state: present
 
     - name: add repository
-      yum_repository:
+      ansible.builtin.yum_repository:
         name: mariadb
         description: Mariadb YUM repo
         baseurl: "{{ mariadb_install__rpm_repo_path }}"
@@ -21,7 +21,7 @@
   when: mariadb_install__add_mariadb_repository
 
 - name: install mariadb packages.
-  ansible.builtin.package:
+  ansible.builtin.yum:
     name: "{{ item }}"
     state: present
   with_items: "{{ mariadb_install__list }}"
