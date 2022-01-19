@@ -1,0 +1,24 @@
+---
+galaxy_info:
+  author: "darexsu"
+  role_name: "mariadb"
+  description: easy setup mariadb from repository
+  company: ""
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.4
+  platforms:
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
+    - name: Ubuntu
+      versions:
+        - xenial
+        - focal
+    - name: EL
+      versions:
+        - 7
+        - 8
+  galaxy_tags:
+    - mariadb
+    - mysql

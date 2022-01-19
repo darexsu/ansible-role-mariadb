@@ -1,0 +1,33 @@
+---
+- name: ensure dependencies are installed.
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items: "{{ mariadb_install__dependencies_debian }}"
+
+- name: add repo for debian
+  block:
+    - name: add php repository gpg key
+      ansible.builtin.apt_key:
+        url: "{{ mariadb_install__deb_repo_gpg_key }}"
+        state: present
+
+    - name: add mariadb repository
+      ansible.builtin.apt_repository:
+        repo: "{{ mariadb_install__deb_repo_path }}"
+        state: present
+  when: mariadb_install__add_mariadb_repository
+
+- name: install mariadb packages.
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  ignore_errors: true
+  with_items: "{{ mariadb_install__list }}"
+
+- name: start mariadb
+  ansible.builtin.service:
+    name: mariadb
+    state: started

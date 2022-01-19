@@ -1,0 +1,50 @@
+---
+# install
+mariadb_install: false                                                        # enable\disable "install vars" below
+mariadb_install__version: "10.6"                                              # mariadb version
+mariadb_install__list: [mariadb-server]                                       # install mariadb with package manager
+mariadb_install__dependencies_debian: [gnupg2, python3, python3-pymysql]      # install dependencies list for debian
+mariadb_install__dependencies_redhat: [python3, python3-PyMySQL]              # install dependencies list for redhat
+mariadb_install__add_mariadb_repository: true                                 # enable mariadb repository
+
+# settings
+mariadb_settings: false                                                       # enable\disable "settings vars" below
+# settings -> copy config file
+mariadb_settings__copy_my_config_file_from: ""                                # control node path, can be absolute or relative. for example: ./my.cnf
+mariadb_settings__paste_my_config_file_to: "/etc/my.cnf"                      # remote path to config folder
+
+# actions
+mariadb_actions: false                                                        # enable\disable "actions vars" below
+mariadb_actions__login_user: "root"                                           # the username used to authenticate with
+mariadb_actions__login_password: ""                                           # after install, root have no password
+mariadb_actions__login_unix_socket: "{{ vars['mariadb_actions__login_unix_socket_' + ansible_os_family | lower] }}"
+mariadb_actions__login_unix_socket_debian: "/run/mysqld/mysqld.sock"
+mariadb_actions__login_unix_socket_redhat: "/var/lib/mysql/mysql.sock"
+# actions -> user
+mariadb_actions__user: false                                                  # enable\disable "user vars" below
+mariadb_actions__user_state: "present"                                        # present - create user, absent - delete user
+mariadb_actions__user_name: ""                                                # user name, for example: "username@%" or "username@localhost"
+mariadb_actions__user_password: ""                                            # user password
+mariadb_actions__user_privileges: '*.*:ALL'                                   # set privileges
+mariadb_actions__user_hashed_password: no                                     # hashed password, default - disable
+# actions -> roles
+mariadb_actions__role: false                                                  # enable\disable "role vars" below
+mariadb_actions__role_state: "present"                                        # present - create role, absent - delete role
+mariadb_actions__role_name: ""                                                # name of role
+mariadb_actions__role_members: []                                             # for example: "username@%"" or "username@localhost"
+mariadb_actions__role_privileges: '*.*:ALL'                                   # privileges of role
+# actions -> database -> manage
+mariadb_actions__database_manage: false                                       # enable\disable "manage vars" below
+mariadb_actions__database_manage_state: "present"                             # present - create database, absent - delete database
+mariadb_actions__database_manage_name: []                                     # list of names database
+mariadb_actions__database_manage_encoding: "utf8"                             # encoding database, default - "utf8"
+# actions -> database -> dump
+mariadb_actions__database_dump: false                                         # enable\disable "dump vars" below
+mariadb_actions__database_dump_name: []                                       # you can use "all" or name of database
+mariadb_actions__database_dump_folder: "/tmp/"                                # dump to /tmp/dump_{name of database}.sql
+mariadb_actions__database_dump_encoding: "utf8"                               # encoding dump, default - "utf8"
+# actions -> database -> query
+mariadb_actions__database_query: false                                        # enable\disable "query vars" below
+mariadb_actions__database_query_namedb: ""                                    # database name
+mariadb_actions__database_query_sql: []                                       # you can use "all" or name of database
+mariadb_actions__database_query_show_response: false                          # show response

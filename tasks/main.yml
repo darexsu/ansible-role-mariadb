@@ -1,0 +1,22 @@
+---
+- name: include mariadb install
+  include_tasks: ./tasks/install/mariadb_install__{{ ansible_os_family | lower }}.yml
+  when: mariadb_install
+
+- name: Get stats of a file
+  ansible.builtin.stat:
+    path: "/usr/bin/python3"
+  register: check_python3
+
+- name: set python3 path
+  set_fact:
+    ansible_python_interpreter: "/usr/bin/python3"
+  when: check_python3.stat.islnk is defined
+
+- name: include mariadb settings
+  include_tasks: ./tasks/settings/mariadb_settings__{{ ansible_os_family | lower }}.yml
+  when: mariadb_settings
+
+- name: include mariadb actions
+  include_tasks: ./tasks/actions/mariadb_actions.yml
+  when: mariadb_actions
