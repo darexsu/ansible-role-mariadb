@@ -11,15 +11,17 @@ Molecule testing:
 
 Optional tasks:
 
-  - install MariaDB {version}  
-  - copy your configuration ( ./my.cnf ) 
-  - setup
+  - install
+    - MariaDB {version}
+    - mariadb.org repository 
+  - settings
+    - copy your configuration ( ./my.cnf ) 
+  - actions
     - users
     - roles
     - database
     - dump
     - query
-
 
 Installation:
 
