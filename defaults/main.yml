@@ -42,6 +42,11 @@ mariadb_actions__database_dump: false                                         # 
 mariadb_actions__database_dump_name: []                                       # you can use "all" or name of database
 mariadb_actions__database_dump_folder: "/tmp/"                                # dump to /tmp/dump_{name of database}.sql
 mariadb_actions__database_dump_encoding: "utf8"                               # encoding dump, default - "utf8"
+# actions -> database -> import sql or restore database
+mariadb_actions__database_import_sql: false                                   # enable\disable "import sql vars" below
+mariadb_actions__database_import_sql_namedb: []                               # list of names database or use "all"
+mariadb_actions__database_import_sql_path: ""                                 # path to sql script like "/tmp/script.sql"
+mariadb_actions__database_import_sql_encoding: ""                             # import with specific encoding
 # actions -> database -> query
 mariadb_actions__database_query: false                                        # enable\disable "query vars" below
 mariadb_actions__database_query_namedb: ""                                    # database name

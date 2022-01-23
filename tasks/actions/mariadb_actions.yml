@@ -1,4 +1,27 @@
 ---
+- name: manage database
+  community.mysql.mysql_db:
+    login_user: "{{ mariadb_actions__login_user }}"
+    login_password: "{{ mariadb_actions__login_password }}"
+    name: "{{ item }}"
+    state: "{{ mariadb_actions__database_manage_state }}"
+    encoding: "{{ mariadb_actions__database_manage_encoding }}"
+    login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
+    collation: "{{ mariadb_actions__database_manage_collation }}"
+  with_items: "{{ mariadb_actions__database_manage_name }}"
+  when: mariadb_actions__database_manage
+
+- name: import sql
+  community.mysql.mysql_db:
+    login_user: "{{ mariadb_actions__login_user }}"
+    login_password: "{{ mariadb_actions__login_password }}"
+    name: "{{ item }}"
+    state: "import"
+    encoding: "{{ mariadb_actions__database_import_sql_encoding }}"
+    login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"    
+  with_items: "{{ mariadb_actions__database_import_sql_namedb }}"
+  when: mariadb_actions__database_import_sql
+
 - name: query to "{{ mariadb_actions__database_query_namedb }}"
   community.mysql.mysql_query:
     login_user: "{{ mariadb_actions__login_user }}"
@@ -13,18 +36,6 @@
   debug:
     var: mariadb_query_response
   when: mariadb_actions__database_query_show_response
-
-- name: manage database
-  community.mysql.mysql_db:
-    login_user: "{{ mariadb_actions__login_user }}"
-    login_password: "{{ mariadb_actions__login_password }}"
-    name: "{{ item }}"
-    state: "{{ mariadb_actions__database_manage_state }}"
-    encoding: "{{ mariadb_actions__database_manage_encoding }}"
-    login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
-    collation: "{{ mariadb_actions__database_manage_collation }}"
-  with_items: "{{ mariadb_actions__database_manage_name }}"
-  when: mariadb_actions__database_manage
 
 - name: manage user
   community.mysql.mysql_user:
