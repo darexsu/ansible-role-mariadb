@@ -1,15 +1,18 @@
 ---
-- name: manage user
-  community.mysql.mysql_user:
+- name: query to "{{ mariadb_actions__database_query_namedb }}"
+  community.mysql.mysql_query:
     login_user: "{{ mariadb_actions__login_user }}"
     login_password: "{{ mariadb_actions__login_password }}"
-    name: "{{ mariadb_actions__user_name }}"
-    password: "{{ mariadb_actions__user_password }}"
-    priv: "{{ mariadb_actions__user_privileges }}"
-    state: "{{ mariadb_actions__user_state }}"
-    encrypted: "{{ mariadb_actions__user_hashed_password }}"
     login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
-  when: mariadb_actions__user
+    login_db: "{{ mariadb_actions__database_query_namedb }}"
+    query: "{{ mariadb_actions__database_query_sql }}"
+  when: mariadb_actions__database_query
+  register: mariadb_query_response
+
+- name: show query response
+  debug:
+    var: mariadb_query_response
+  when: mariadb_actions__database_query_show_response
 
 - name: manage database
   community.mysql.mysql_db:
@@ -21,6 +24,18 @@
     login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
   with_items: "{{ mariadb_actions__database_manage_name }}"
   when: mariadb_actions__database_manage
+
+- name: manage user
+  community.mysql.mysql_user:
+    login_user: "{{ mariadb_actions__login_user }}"
+    login_password: "{{ mariadb_actions__login_password }}"
+    name: "{{ mariadb_actions__user_name }}"
+    password: "{{ mariadb_actions__user_password }}"
+    priv: "{{ mariadb_actions__user_privileges }}"
+    state: "{{ mariadb_actions__user_state }}"
+    encrypted: "{{ mariadb_actions__user_hashed_password }}"
+    login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
+  when: mariadb_actions__user
 
 - name: dump database
   community.mysql.mysql_db:
@@ -42,18 +57,3 @@
     state: "{{ mariadb_actions__role_state }}"
     login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
   when: mariadb_actions__role
-
-- name: query to "{{ mariadb_actions__database_query_namedb }}"
-  community.mysql.mysql_query:
-    login_user: "{{ mariadb_actions__login_user }}"
-    login_password: "{{ mariadb_actions__login_password }}"
-    login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
-    login_db: "{{ mariadb_actions__database_query_namedb }}"
-    query: "{{ mariadb_actions__database_query_sql }}"
-  when: mariadb_actions__database_query
-  register: mariadb_query_response
-
-- name: show query response
-  debug:
-    var: mariadb_query_response
-  when: mariadb_actions__database_query_show_response
