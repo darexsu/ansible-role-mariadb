@@ -17,6 +17,7 @@
     login_password: "{{ mariadb_actions__login_password }}"
     name: "{{ item }}"
     state: "import"
+    target: "{{ mariadb_actions__database_import_sql_path }}"
     encoding: "{{ mariadb_actions__database_import_sql_encoding }}"
     login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"    
   with_items: "{{ mariadb_actions__database_import_sql_namedb }}"
