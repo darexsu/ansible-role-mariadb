@@ -22,6 +22,7 @@
     state: "{{ mariadb_actions__database_manage_state }}"
     encoding: "{{ mariadb_actions__database_manage_encoding }}"
     login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
+    collation: "{{ mariadb_actions__database_manage_collation }}"
   with_items: "{{ mariadb_actions__database_manage_name }}"
   when: mariadb_actions__database_manage
 

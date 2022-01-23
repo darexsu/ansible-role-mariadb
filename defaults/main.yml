@@ -36,6 +36,7 @@ mariadb_actions__database_manage: false                                       # 
 mariadb_actions__database_manage_state: "present"                             # present - create database, absent - delete database
 mariadb_actions__database_manage_name: []                                     # list of names database
 mariadb_actions__database_manage_encoding: "utf8"                             # encoding database, default - "utf8"
+mariadb_actions__database_manage_collation: ""                                # this only applies to new table/databases and does not update existing ones
 # actions -> database -> dump
 mariadb_actions__database_dump: false                                         # enable\disable "dump vars" below
 mariadb_actions__database_dump_name: []                                       # you can use "all" or name of database
