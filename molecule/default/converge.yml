@@ -4,43 +4,43 @@
 
   roles:
     - role: darexsu.mariadb
-      vars:
-        # install
-        mariadb_install: true
+      # ----- install
+      mariadb_install: true
+      mariadb_install__version: "10.6"
 
-        # settings
-        mariadb_settings: false
-        # settings -> copy config file
-        mariadb_settings__copy_my_config_file_from: "./my"
-        mariadb_settings__paste_my_config_file_to: "/etc/mysql/mariadb.conf.d/my.cnf"
+      # ----- config
+      mariadb_config: true
+      # ----- config  copy file
+      mariadb_config__copy_file_from: ""
+      mariadb_config__copy_file_to: "/etc/mysql/mariadb.conf.d/my.cnf"
 
-        # actions
-        mariadb_actions: true
-        mariadb_actions__login_user: "root"
-        mariadb_actions__login_password: ""
-        # actions -> user
-        mariadb_actions__user: true
-        mariadb_actions__user_state: "present"
-        mariadb_actions__user_name: "testuser@localhost"
-        mariadb_actions__user_password: 'test_password'
-        mariadb_actions__user_privileges: '*.*:ALL'
-        mariadb_actions__user_hashed_password: no
-        # actions -> roles
-        mariadb_actions__role: true
-        mariadb_actions__role_state: "present"
-        mariadb_actions__role_name: 'test_role'
-        # actions -> database -> manage
-        mariadb_actions__database_manage: true
-        mariadb_actions__database_manage_state: "present"
-        mariadb_actions__database_manage_name: [test_database1, test_database2]
-        mariadb_actions__database_manage_encoding: "utf8"
-        # actions -> database -> dump
-        mariadb_actions__database_dump: true
-        mariadb_actions__database_dump_name: [test_database1, test_database2]
-        mariadb_actions__database_dump_folder: "/tmp/"
-        mariadb_actions__database_dump_encoding: "utf8"
-        # actions -> database -> query
-        mariadb_actions__database_query: true
-        mariadb_actions__database_query_namedb: "mysql"
-        mariadb_actions__database_query_sql: [SELECT user FROM user;]
-        mariadb_actions__database_query_show_response: true
+      # ----- actions
+      mariadb_actions: true
+      mariadb_actions__login_user: "root"
+      mariadb_actions__login_password: ""
+      # ----- actions  user
+      mariadb_actions__user: true
+      mariadb_actions__user__state: "present"
+      mariadb_actions__user__name: "testuser@localhost"
+      mariadb_actions__user__password: 'test_password'
+      mariadb_actions__user__privileges: '*.*:ALL'
+      mariadb_actions__user__hashed_password: no
+      # ----- actions  roles
+      mariadb_actions__role: true
+      mariadb_actions__role__state: "present"
+      mariadb_actions__role__name: 'test_role'
+      # ----- actions  database manage
+      mariadb_actions__database_manage: true
+      mariadb_actions__database_manage__state: "present"
+      mariadb_actions__database_manage__name: [test_database1, test_database2]
+      mariadb_actions__database_manage__encoding: "utf8"
+      # ----- actions  database dump
+      mariadb_actions__database_dump: true
+      mariadb_actions__database_dump__name: [test_database1, test_database2]
+      mariadb_actions__database_dump__folder: "/tmp/"
+      mariadb_actions__database_dump__encoding: "utf8"
+      # ----- actions  database query
+      mariadb_actions__database_query: true
+      mariadb_actions__database_query__namedb: "mysql"
+      mariadb_actions__database_query__sql: [SELECT user FROM user;]
+      mariadb_actions__database_query__show_response: true

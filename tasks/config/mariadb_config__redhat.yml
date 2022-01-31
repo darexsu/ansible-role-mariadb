@@ -1,0 +1,10 @@
+---
+- name: copy config file to remote node
+  ansible.builtin.copy:
+    src: "{{ mariadb_config__copy_file_from }}"
+    dest: "{{ mariadb_config__copy_file_to }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart mariadb
+  when: mariadb_config__copy_file_from

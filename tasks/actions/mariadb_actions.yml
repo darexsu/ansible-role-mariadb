@@ -4,11 +4,11 @@
     login_user: "{{ mariadb_actions__login_user }}"
     login_password: "{{ mariadb_actions__login_password }}"
     name: "{{ item }}"
-    state: "{{ mariadb_actions__database_manage_state }}"
-    encoding: "{{ mariadb_actions__database_manage_encoding }}"
+    state: "{{ mariadb_actions__database_manage__state }}"
+    encoding: "{{ mariadb_actions__database_manage__encoding }}"
     login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
-    collation: "{{ mariadb_actions__database_manage_collation }}"
-  with_items: "{{ mariadb_actions__database_manage_name }}"
+    collation: "{{ mariadb_actions__database_manage__collation }}"
+  with_items: "{{ mariadb_actions__database_manage__name }}"
   when: mariadb_actions__database_manage
 
 - name: import sql
@@ -17,36 +17,36 @@
     login_password: "{{ mariadb_actions__login_password }}"
     name: "{{ item }}"
     state: "import"
-    target: "{{ mariadb_actions__database_import_sql_path }}"
-    encoding: "{{ mariadb_actions__database_import_sql_encoding }}"
+    target: "{{ mariadb_actions__database_import_sql__path }}"
+    encoding: "{{ mariadb_actions__database_import_sql__encoding }}"
     login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"    
-  with_items: "{{ mariadb_actions__database_import_sql_namedb }}"
+  with_items: "{{ mariadb_actions__database_import_sql__namedb }}"
   when: mariadb_actions__database_import_sql
 
-- name: query to "{{ mariadb_actions__database_query_namedb }}"
+- name: query to "{{ mariadb_actions__database_query__namedb }}"
   community.mysql.mysql_query:
     login_user: "{{ mariadb_actions__login_user }}"
     login_password: "{{ mariadb_actions__login_password }}"
     login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
-    login_db: "{{ mariadb_actions__database_query_namedb }}"
-    query: "{{ mariadb_actions__database_query_sql }}"
+    login_db: "{{ mariadb_actions__database_query__namedb }}"
+    query: "{{ mariadb_actions__database_query__sql }}"
   when: mariadb_actions__database_query
   register: mariadb_query_response
 
 - name: show query response
   debug:
     var: mariadb_query_response
-  when: mariadb_actions__database_query_show_response
+  when: mariadb_actions__database_query__show_response
 
 - name: manage user
   community.mysql.mysql_user:
     login_user: "{{ mariadb_actions__login_user }}"
     login_password: "{{ mariadb_actions__login_password }}"
-    name: "{{ mariadb_actions__user_name }}"
-    password: "{{ mariadb_actions__user_password }}"
-    priv: "{{ mariadb_actions__user_privileges }}"
-    state: "{{ mariadb_actions__user_state }}"
-    encrypted: "{{ mariadb_actions__user_hashed_password }}"
+    name: "{{ mariadb_actions__user__name }}"
+    password: "{{ mariadb_actions__user__password }}"
+    priv: "{{ mariadb_actions__user__privileges }}"
+    state: "{{ mariadb_actions__user__state }}"
+    encrypted: "{{ mariadb_actions__user__hashed_password }}"
     login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
   when: mariadb_actions__user
 
@@ -56,17 +56,17 @@
     login_password: "{{ mariadb_actions__login_password }}"
     name: "{{ item }}"
     state: "dump"
-    target: "{{ mariadb_actions__database_dump_folder }}dump_{{ item }}.sql"
-    encoding: "{{ mariadb_actions__database_dump_encoding }}"
+    target: "{{ mariadb_actions__database_dump__folder }}dump_{{ item }}.sql"
+    encoding: "{{ mariadb_actions__database_dump__encoding }}"
     login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
-  with_items: "{{ mariadb_actions__database_dump_name }}"
+  with_items: "{{ mariadb_actions__database_dump__name }}"
   when: mariadb_actions__database_dump
 
-- name: manage role "{{ mariadb_actions__role_name }}"
+- name: manage role "{{ mariadb_actions__role__name }}"
   community.mysql.mysql_role:
     login_user: "{{ mariadb_actions__login_user }}"
     login_password: "{{ mariadb_actions__login_password }}"
-    name: "{{ mariadb_actions__role_name }}"
-    state: "{{ mariadb_actions__role_state }}"
+    name: "{{ mariadb_actions__role__name }}"
+    state: "{{ mariadb_actions__role__state }}"
     login_unix_socket: "{{ mariadb_actions__login_unix_socket }}"
   when: mariadb_actions__role
