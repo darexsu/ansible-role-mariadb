@@ -23,9 +23,9 @@ ansible-galaxy install darexsu.mariadb --force
   - actions
     - [user](#example-playbook-user)
     - [role](#example-playbook-role)
-    - [database](#example-playbook-database)
+    - [database](#example-playbook-database-manage)
     - [dump](#example-playbook-dump)
-    - [import restore](#example-playbook-database-import-sql)
+    - [database import sql](#example-playbook-database-import-sql)
     - [query](#example-playbook-query)
 
 ##### Example playbook: install MariaDB
