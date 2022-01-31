@@ -2,7 +2,7 @@
 galaxy_info:
   author: "darexsu"
   role_name: "mariadb"
-  description: setup mariadb repository, databases , users, roles, queries, dump
+  description: setup mariadb repository, databases, users, roles, queries, dump
   company: ""
   license: "license (BSD, MIT)"
   min_ansible_version: 2.4

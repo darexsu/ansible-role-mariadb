@@ -10,8 +10,8 @@ mariadb_install__add_mariadb_repository: true                                  #
 # ----- config
 mariadb_config: false                                                          # enable\disable "config vars" below
 # ----- config  copy file
-mariadb_config__copy_file__from: ""                                            # control node path, can be absolute or relative. for example: ./my.cnf
-mariadb_config__copy_file__to: ""                                              # remote path to config folder
+mariadb_config__copy_file_from: ""                                            # control node path, can be absolute or relative. for example: ./my.cnf
+mariadb_config__copy_file_to: ""                                              # remote path to config folder
 
 # ----- actions
 mariadb_actions: false                                                         # enable\disable "actions vars" below
