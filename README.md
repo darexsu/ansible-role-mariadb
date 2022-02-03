@@ -1,12 +1,12 @@
 # Ansible role MariaDB
 
-[![CI Molecule](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml/badge.svg)](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml)
+[![CI Molecule](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml/badge.svg)](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml)&emsp;![Ansible Role](https://img.shields.io/ansible/role/d/57634?color=blue&label=downloads)
 
 Molecule testing:
 
-| Platforms |    Debian     |    Ubuntu     |    CentOS     |  Rocky Linux |
+| Platforms |    Debian     |    Ubuntu     |    Rocky Linux |  Oracle Linux |
 | --------- | ------------- | ------------- | ------------- | ------------ |
-|  Version  |   10, 11      | 18.04, 20.04  |     7, 8      |      8       |
+|  Version  |   10, 11      | 18.04, 20.04  |      8      |      8       |
 | Repository|  mariadb.org    | mariadb.org    |  mariadb.org    |  mariadb.org   |
 
 ### 1) Install role from Galaxy
