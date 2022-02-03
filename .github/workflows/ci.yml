@@ -1,6 +1,7 @@
 ---
 name: CI
-'on':
+on:
+  push:
   schedule:
     - cron: "0 6 * * 3"
     
@@ -15,13 +16,12 @@ jobs:
     strategy:
       matrix:
         distro:
-          - debian10
-          - debian11
-          - ubuntu1804
-          - ubuntu2004
-          - centos7
-          - centos8
-          - rockylinux8
+          - debian-10
+          - debian-11
+          - ubuntu-1804
+          - ubuntu-2004
+          - rockylinux-8
+          - oraclelinux-8
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v2
@@ -42,3 +42,4 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
           MOLECULE_DISTRO: ${{ matrix.distro }}
+          MOLECULE_COMMAND: ${{ secrets.COMMAND }}
