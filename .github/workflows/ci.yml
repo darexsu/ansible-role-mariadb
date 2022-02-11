@@ -16,12 +16,8 @@ jobs:
     strategy:
       matrix:
         distro:
-          - debian-10
-          - debian-11
-          - ubuntu-1804
-          - ubuntu-2004
           - rockylinux-8
-          - oraclelinux-8
+
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v2
