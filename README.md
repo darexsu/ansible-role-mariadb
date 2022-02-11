@@ -1,11 +1,15 @@
 # Ansible role MariaDB
 
-[![CI Molecule](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml/badge.svg)](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml)&emsp;![Ansible Role](https://img.shields.io/ansible/role/d/57634?color=blue&label=downloads)
+[![CI Molecule](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml/badge.svg)](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml)&emsp;![](https://img.shields.io/static/v1?label=idempotence&message=ok&color=success)&emsp;![Ansible Role](https://img.shields.io/ansible/role/d/57634?color=blue&label=downloads)
 
-| Testing |    Debian     |    Ubuntu     |    Rocky Linux |  Oracle Linux |
-| --------- | ------------- | ------------- | ------------- | ------------ |
-|  Version  |   10, 11      | 18.04, 20.04  |      8      |      8       |
-| Repository|  mariadb.org    | mariadb.org    |  mariadb.org    |  mariadb.org   |
+|  Official repo   | Mariadb version    |  Third-Party repo |  Mariadb version | 
+| ---------------- | ------------------ | ----------------- | ---------------- |
+| Debian 11        |   10.5             | mariadb.org       |     Latest       | 
+| Debian 10        |   10.3             | mariadb.org       |     Latest       |   
+| Ubuntu 20.04     |   10.3             | mariadb.org       |     Latest       | 
+| Ubuntu 18.04     |   10.1             | mariadb.org       |     Latest       |   
+| RockyLinux 8     |   10.3             | mariadb.org       |     Latest       | 
+| OracleLinux 8    |   10.3             | mariadb.org       |     Latest       | 
 
 ### 1) Install role from Galaxy
 ```
@@ -15,7 +19,8 @@ ansible-galaxy install darexsu.mariadb --force
 ### 2) Example playbooks: 
   
   - install
-    - [MariaDB {version}](#example-playbook-install-mariadb)
+    - [MariaDB from official repo](#example-playbook-install-mariadb-from-official-repo)
+    - [MariaDB {version} from third-party repo](#example-playbook-install-mariadb-from-third-party-repo)
   - config
     - [copy config](#example-playbook-copy-config)
   - actions
@@ -26,7 +31,7 @@ ansible-galaxy install darexsu.mariadb --force
     - [database import sql](#example-playbook-database-import-sql)
     - [query](#example-playbook-query)
 
-##### Example playbook: install MariaDB
+##### Example playbook: install MariaDB from official repo
 ```yaml
 ---
 - hosts: all
@@ -36,7 +41,21 @@ ansible-galaxy install darexsu.mariadb --force
     - role: darexsu.mariadb
       # ----- install
       mariadb_install: true
-      mariadb_install__version: "10.6"
+
+```
+##### Example playbook: install MariaDB from third-party repo
+```yaml
+---
+- hosts: all
+  become: yes
+
+  roles:
+    - role: darexsu.mariadb
+      # ----- install
+      mariadb_install: true
+      # ----- install  repo
+      mariadb_install__repo__mariadb: true
+      mariadb_install__repo__mariadb__version: "10.6"  
 
 ```
 

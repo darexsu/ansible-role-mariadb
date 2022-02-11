@@ -1,6 +1,7 @@
 ---
 - name: Converge
   hosts: all
+  become: true
 
   pre_tasks:
   - name: Unnessessary command
@@ -12,7 +13,9 @@
     - role: darexsu.mariadb
       # ----- install
       mariadb_install: true
-      mariadb_install__version: "10.6"
+      # ----- install  repo
+      mariadb_install__repo__mariadb: true 
+      mariadb_install__repo__mariadb__version: "10.6"
 
       # ----- config
       mariadb_config: true
