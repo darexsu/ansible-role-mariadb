@@ -1,7 +1,0 @@
----
-# ----- install  repo  mariadb  deb
-mariadb_install__repo__mariadb__deb: "deb [arch=amd64,arm64,ppc64el] http://sfo1.mirrors.digitalocean.com/mariadb/repo/{{ mariadb_install__repo__mariadb__version }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
-mariadb_install__repo__mariadb__deb_gpg_key: "https://mariadb.org/mariadb_release_signing_key.asc"
-# ----- install  repo  mariadb  rpm
-mariadb_install__repo__mariadb__rpm: "http://yum.mariadb.org/{{ mariadb_install__repo__mariadb__version }}/rhel/$releasever/$basearch"
-mariadb_install__repo__mariadb__rpm_gpg_key: "https://yum.mariadb.org/RPM-GPG-KEY-MariaDB"

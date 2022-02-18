@@ -1,6 +1,6 @@
 ---
 - name: Converge
-  hosts: all
+  hosts: all 
 
   pre_tasks:
   - name: Unnessessary command
@@ -8,47 +8,16 @@
       cmd: "{{ lookup('env', 'ANSIBLE_COMMAND') }}"
     when: lookup('env', 'ANSIBLE_COMMAND') | length > 0
   
-  roles:
-    - role: darexsu.mariadb
-      # ----- install
-      mariadb_install: true
-      # ----- install  repo
-      mariadb_install__repo__mariadb: true 
-      mariadb_install__repo__mariadb__version: "10.6"
-
-      # ----- config
-      mariadb_config: true
-      # ----- config  copy file
-      mariadb_config__copy_file_from: ""
-      mariadb_config__copy_file_to: "/etc/mysql/mariadb.conf.d/my.cnf"
-
-      # ----- actions
-      mariadb_actions: true
-      mariadb_actions__login_user: "root"
-      mariadb_actions__login_password: ""
-      # ----- actions  user
-      mariadb_actions__user: true
-      mariadb_actions__user__state: "present"
-      mariadb_actions__user__name: "testuser@localhost"
-      mariadb_actions__user__password: 'test_password'
-      mariadb_actions__user__privileges: '*.*:ALL'
-      mariadb_actions__user__hashed_password: no
-      # ----- actions  roles
-      mariadb_actions__role: true
-      mariadb_actions__role__state: "present"
-      mariadb_actions__role__name: 'test_role'
-      # ----- actions  database manage
-      mariadb_actions__database_manage: true
-      mariadb_actions__database_manage__state: "present"
-      mariadb_actions__database_manage__name: [test_database1, test_database2]
-      mariadb_actions__database_manage__encoding: "utf8"
-      # ----- actions  database dump
-      mariadb_actions__database_dump: true
-      mariadb_actions__database_dump__name: [test_database1, test_database2]
-      mariadb_actions__database_dump__folder: "/tmp/"
-      mariadb_actions__database_dump__encoding: "utf8"
-      # ----- actions  database query
-      mariadb_actions__database_query: true
-      mariadb_actions__database_query__namedb: "mysql"
-      mariadb_actions__database_query__sql: [SELECT user FROM user;]
-      mariadb_actions__database_query__show_response: true
+  vars:
+    mariadb_merge:
+      mariadb:
+        version: "10.6"
+      mariadb_install:
+        enabled: true
+      mariadb_repo:
+        enabled: true      
+  
+  tasks:
+    - name: include role mariadb
+      include_role: 
+        name: darexsu.mariadb

@@ -1,22 +1,27 @@
 ---
+- name: merge dictionaries
+  block:
+  - name: register default vars
+    include_vars:   
+      dir: "{{ role_path }}/defaults/"
+      name: mariadb_default_vars
+
+  - name: merge default and new dictionaries 
+    set_fact:
+      "{{ item.key }}": "{{ mariadb_default_vars[item.key] | combine(mariadb_merge[item.key], recursive=True)}}"
+    with_dict: "{{ mariadb_merge }}"
+  when: mariadb_merge is defined
+
 - name: include mariadb install
   include_tasks: ./tasks/install/mariadb_install__{{ ansible_os_family | lower }}.yml
-  when: mariadb_install
-
-- name: Get stats of a file
-  ansible.builtin.stat:
-    path: "/usr/bin/python3"
-  register: check_python3
-
-- name: set python3 path
-  set_fact:
-    ansible_python_interpreter: "/usr/bin/python3"
-  when: check_python3.stat.islnk is defined
+  when: mariadb_install.enabled
 
 - name: include mariadb config
   include_tasks: ./tasks/config/mariadb_config__{{ ansible_os_family | lower }}.yml
-  when: mariadb_config
-
-- name: include mariadb actions
-  include_tasks: ./tasks/actions/mariadb_actions.yml
-  when: mariadb_actions
+  when: mariadb_config.enabled  
+  
+- name: service status mariadb
+  ansible.builtin.service:
+    name: mariadb
+    state: "{{ mariadb.service.state }}"
+    enabled: "{{ mariadb.service.enabled }}"

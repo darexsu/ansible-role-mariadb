@@ -1,55 +1,43 @@
 ---
-# ----- install
-mariadb_install: false                                                         # enable\disable "install vars" below
-mariadb_install__list: [mariadb-server]                                        # install mariadb with package manager
-mariadb_install__dependencies_debian: [gnupg2, python3, python3-pymysql]       # install dependencies list for debian
-mariadb_install__dependencies_redhat: [python3, python3-PyMySQL]               # install dependencies list for redhat
-# ----- install  repo
-mariadb_install__repo__mariadb: false                                          # enable mariadb repository
-mariadb_install__repo__mariadb__version: "10.6"                                # mariadb version
+# global
+#   ├── repo
+#   ├── install
+#   |    ├── packages
+#   |    └── dependencies#
+#   └── config
+#        └── server.cnf 
 
-# ----- config
-mariadb_config: false                                                          # enable\disable "config vars" below
-# ----- config  copy file
-mariadb_config__copy_file_from: ""                                             # control node path, can be absolute or relative. for example: ./my.cnf
-mariadb_config__copy_file_to: ""                                               # remote path to config folder
+# global
+mariadb:
+  version: ""
+  service:
+    state: "started"
+    enabled: yes
 
-# ----- actions
-mariadb_actions: false                                                         # enable\disable "actions vars" below
-mariadb_actions__login_user: "root"                                            # the username used to authenticate with
-mariadb_actions__login_password: ""                                            # after install, root have no password
-mariadb_actions__login_unix_socket: "{{ vars['mariadb_actions__login_unix_socket_' + ansible_os_family | lower] }}"
-mariadb_actions__login_unix_socket_debian: "/run/mysqld/mysqld.sock"
-mariadb_actions__login_unix_socket_redhat: "/var/lib/mysql/mysql.sock"
-# ----- actions  user
-mariadb_actions__user: false                                                   # enable\disable "user vars" below
-mariadb_actions__user__state: "present"                                        # present - create user, absent - delete user
-mariadb_actions__user__name: ""                                                # user name, for example: "username@%" or "username@localhost"
-mariadb_actions__user__password: ""                                            # user password
-mariadb_actions__user__privileges: '*.*:ALL'                                   # set privileges
-mariadb_actions__user__hashed_password: no                                     # hashed password, default - disable
-# ----- actions  role
-mariadb_actions__role: false                                                   # enable\disable "role vars" below
-mariadb_actions__role__state: "present"                                        # present - create role, absent - delete role
-mariadb_actions__role__name: ""                                                # name of role
-# ----- actions  database manage
-mariadb_actions__database_manage: false                                        # enable\disable "manage vars" below
-mariadb_actions__database_manage__state: "present"                             # present - create database, absent - delete database
-mariadb_actions__database_manage__name: []                                     # list of names database
-mariadb_actions__database_manage__encoding: "utf8"                             # encoding database, default - "utf8"
-mariadb_actions__database_manage__collation: ""                                # this only applies to new table/databases and does not update existing ones
-# ----- actions  database dump
-mariadb_actions__database_dump: false                                          # enable\disable "dump vars" below
-mariadb_actions__database_dump__name: []                                       # you can use "all" or name of database
-mariadb_actions__database_dump__folder: "/tmp/"                                # dump to /tmp/dump_{name of database}.sql
-mariadb_actions__database_dump__encoding: "utf8"                               # encoding dump, default - "utf8"
-# ----- actions  database import sql
-mariadb_actions__database_import_sql: false                                    # enable\disable "import sql vars" below
-mariadb_actions__database_import_sql__namedb: []                               # list of names database or use "all"
-mariadb_actions__database_import_sql__path: ""                                 # path to sql script like "/tmp/script.sql"
-mariadb_actions__database_import_sql__encoding: ""                             # import with specific encoding
-# ----- actions  database query
-mariadb_actions__database_query: false                                         # enable\disable "query vars" below
-mariadb_actions__database_query__namedb: ""                                    # database name
-mariadb_actions__database_query__sql: []                                       # you can use "all" or name of database
-mariadb_actions__database_query__show_response: false                          # show response
+# repo
+mariadb_repo:
+  enabled: false
+  deb: "deb [arch=amd64,arm64,ppc64el] http://sfo1.mirrors.digitalocean.com/mariadb/repo/{{ mariadb.version }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+  deb_key: "https://mariadb.org/mariadb_release_signing_key.asc"
+  rpm: "http://yum.mariadb.org/{{ mariadb.version }}/rhel/$releasever/$basearch"
+  rpm_key: "https://yum.mariadb.org/RPM-GPG-KEY-MariaDB"
+
+# install
+mariadb_install:
+  enabled: false
+  packages: [mariadb-server]
+  dependencies:
+    debian: [gnupg2, python3, python3-pymysql]
+    redhat: [python3, python3-PyMySQL]
+
+# config
+mariadb_config:
+  enabled: false   
+  file:
+    debian: "50-server.cnf"
+    redhat: "server.cnf"   
+  src: ""
+  path:
+    debian: "/etc/mysql/mariadb.conf.d/"
+    redhat: "/etc/my.cnf.d/"
+  backup: false
