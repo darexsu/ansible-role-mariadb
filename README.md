@@ -17,7 +17,9 @@ ansible-galaxy install darexsu.mariadb --force
 ```
 
 ### 2) Example playbooks: 
-  
+
+ NOTE: You have to enable "hash_behaviour=merge" in ansible.cfg to use example playbooks
+
 - [full playbook](#example-playbook-full-playbook)
   - install
     - [MariaDB from official repo](#example-playbook-install-mariadb-from-official-repo)
@@ -25,24 +27,6 @@ ansible-galaxy install darexsu.mariadb --force
   - config
     - [copy config](#example-playbook-copy-config)
 
-### Role hash_behaviour: Replace with defaults dictionaries
-```yaml
-    vars:
-      dict:           # <-- Replace default dictionary
-        a: my value
-        b: my value
-        c: my value
-```
-### Role hash_behaviour: Merge with default dictionaries
-```yaml
-    vars:
-      mariadb_merge:    # <-- Merge with default dictionary
-        dict:
-          a: my value
-          b: my value
-          c: my value
-
-```
 
 ##### Example playbook: full playbook
 ```yaml

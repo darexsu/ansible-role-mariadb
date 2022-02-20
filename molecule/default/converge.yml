@@ -1,7 +1,8 @@
 ---
 - name: Converge
   hosts: all 
-
+  gather_facts: no
+  
   pre_tasks:
   - name: Unnessessary command
     ansible.builtin.shell:

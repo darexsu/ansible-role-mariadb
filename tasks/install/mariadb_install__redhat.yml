@@ -23,14 +23,17 @@
         module_hotfixes: true
   when: mariadb_repo.enabled
 
+- name: install remove old packages.
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: absent
+    update_cache: true
+  ignore_errors: true
+  with_items: "{{ mariadb_install.remove_old.packages }}"
+  when: mariadb_install.remove_old.enabled
+
 - name: install mariadb packages.
   ansible.builtin.yum:
     name: "{{ item }}"
     state: present
   with_items: "{{ mariadb_install.packages }}"
-
-- name: start mariadb
-  ansible.builtin.service:
-    name: mariadb
-    state: started
-    enabled: true

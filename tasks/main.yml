@@ -1,16 +1,24 @@
 ---
 - name: merge dictionaries
   block:
-  - name: register default vars
-    include_vars:   
-      dir: "{{ role_path }}/defaults/"
+  - include_vars: 
+      file: ../../darexsu.mariadb/defaults/main.yml
       name: mariadb_default_vars
-
+  
   - name: merge default and new dictionaries 
     set_fact:
-      "{{ item.key }}": "{{ mariadb_default_vars[item.key] | combine(mariadb_merge[item.key], recursive=True)}}"
-    with_dict: "{{ mariadb_merge }}"
-  when: mariadb_merge is defined
+      "{{ item.key }}": "{{ mariadb_default_vars[item.key] | combine(merge[item.key], recursive=True)}}"
+    when: mariadb_default_vars[item.key] is defined
+    with_dict: "{{ merge }}"
+
+  - name: combine defaults vars with merge dictionary
+    set_fact:
+      merge: "{{ mariadb_default_vars | combine(merge, recursive=True)}}"
+  when: merge is defined
+
+- name: mariadb role is disabled
+  meta: end_play
+  when: not mariadb.enabled
 
 - name: include mariadb install
   include_tasks: ./tasks/install/mariadb_install__{{ ansible_os_family | lower }}.yml
@@ -20,7 +28,7 @@
   include_tasks: ./tasks/config/mariadb_config__{{ ansible_os_family | lower }}.yml
   when: mariadb_config.enabled  
   
-- name: service status mariadb
+- name: "service status {{ mariadb.service.state }} mariadb"
   ansible.builtin.service:
     name: mariadb
     state: "{{ mariadb.service.state }}"

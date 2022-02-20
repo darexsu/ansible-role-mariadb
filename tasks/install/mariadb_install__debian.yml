@@ -19,6 +19,15 @@
         state: present
   when: mariadb_repo.enabled
 
+- name: install remove old packages.
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: absent
+    update_cache: true
+  ignore_errors: true
+  with_items: "{{ mariadb_install.remove_old.packages }}"
+  when: mariadb_install.remove_old.enabled
+
 - name: install mariadb packages.
   ansible.builtin.apt:
     name: "{{ item }}"
