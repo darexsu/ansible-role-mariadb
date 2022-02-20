@@ -27,6 +27,26 @@ ansible-galaxy install darexsu.mariadb --force
   - config
     - [copy config](#example-playbook-copy-config)
 
+Replace dictionary and Merge dictionary (with "hash_behaviour=replace" in ansible.cfg):
+```
+[host_vars]           [host_vars]
+---                   ---
+  vars:                 vars:
+    dict:                 merge:  <-- # Enable Merge
+      a: "value"            dict: 
+      b: "value"              a: "value" 
+                              b: "value"
+```
+Role recursive merge:
+```
+[host_vars]     [current role]    [include_role]
+  
+  dict:          dict:              dict:
+    a: "1" -->     a: "1"    -->      a: "1"
+                   b: "2"    -->      b: "2"
+                                      c: "3"
+    
+```
 
 ##### Example playbook: full playbook
 ```yaml
@@ -35,7 +55,7 @@ ansible-galaxy install darexsu.mariadb --force
   become: true
 
   vars:
-    mariadb_merge:
+    merge:
       mariadb_install:      
         enabled: true
         packages: [mariadb-server]
@@ -63,7 +83,7 @@ ansible-galaxy install darexsu.mariadb --force
   become: true
 
   vars:
-    mariadb_merge:
+    merge:
       mariadb_install:      
         enabled: true
         packages: [mariadb-server]
@@ -83,7 +103,7 @@ ansible-galaxy install darexsu.mariadb --force
   become: true
 
   vars:
-    mariadb_merge:
+    merge:
       mariadb_install:      
         enabled: true
         packages: [mariadb-server]
@@ -106,7 +126,7 @@ ansible-galaxy install darexsu.mariadb --force
   become: true
 
   vars:
-    mariadb_merge:
+    merge:
       mariadb_config:
         enabled: true   
         file:
