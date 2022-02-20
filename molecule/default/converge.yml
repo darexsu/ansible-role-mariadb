@@ -10,8 +10,9 @@
     when: lookup('env', 'ANSIBLE_COMMAND') | length > 0
   
   vars:
-    mariadb_merge:
+    merge:
       mariadb:
+        enabled: true
         version: "10.6"
       mariadb_install:
         enabled: true
