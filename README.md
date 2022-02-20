@@ -2,15 +2,11 @@
 
 [![CI Molecule](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml/badge.svg)](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml)&emsp;![](https://img.shields.io/static/v1?label=idempotence&message=ok&color=success)&emsp;![Ansible Role](https://img.shields.io/ansible/role/d/57634?color=blue&label=downloads)
 
-|  Official repo   |  Third-Party repo  |
-| ---------------- | ------------------ |
-| Debian 11        |  mariadb.org       |
-| Debian 10        |  mariadb.org       |
-| Ubuntu 20.04     |  mariadb.org       |
-| Ubuntu 18.04     |  mariadb.org       |
-| RockyLinux 8     |  mariadb.org       |
-| OracleLinux 8    |  mariadb.org       |
-
+|  Testing         |  Debian            |  Ubuntu         |  Rocky Linux  | Oracle Linux |
+| :--------------: | :----------------: | :-------------: | :-----------: | :----------: |
+| Distro version   |  10, 11            | 18.04, 20.04    |  8            | 8            |
+| Distro repo      |  - [x]             |   - [x]         |    - [x]      |  - [x]       |    
+| Trird-party repo |  mariadb.org       |   mariadb.org   |   mariadb.org |  mariadb.org   | 
 ### 1) Install role from Galaxy
 ```
 ansible-galaxy install darexsu.mariadb --force
