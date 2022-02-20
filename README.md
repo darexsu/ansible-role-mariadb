@@ -56,6 +56,8 @@ Role recursive merge:
 
   vars:
     merge:
+      mariadb:
+        enabled: true
       mariadb_install:      
         enabled: true
         packages: [mariadb-server]
@@ -84,6 +86,8 @@ Role recursive merge:
 
   vars:
     merge:
+      mariadb:
+        enabled: true
       mariadb_install:      
         enabled: true
         packages: [mariadb-server]
@@ -104,12 +108,12 @@ Role recursive merge:
 
   vars:
     merge:
+      mariadb:
+        enabled: true
+        version: "10.6"
       mariadb_install:      
         enabled: true
         packages: [mariadb-server]
-        dependencies:
-          debian: [gnupg2, python3, python3-pymysql]
-          redhat: [python3, python3-PyMySQL]
       mariadb_repo:
         enabled: true
   
@@ -127,6 +131,8 @@ Role recursive merge:
 
   vars:
     merge:
+      mariadb:
+        enabled: true
       mariadb_config:
         enabled: true   
         file:
