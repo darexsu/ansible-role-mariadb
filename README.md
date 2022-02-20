@@ -18,8 +18,6 @@ ansible-galaxy install darexsu.mariadb --force
 
 ### 2) Example playbooks: 
 
- NOTE: You have to enable "hash_behaviour=merge" in ansible.cfg to use example playbooks
-
 - [full playbook](#example-playbook-full-playbook)
   - install
     - [MariaDB from official repo](#example-playbook-install-mariadb-from-official-repo)
