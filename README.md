@@ -55,7 +55,7 @@ Role recursive merge:
   become: true
 
   vars:
-    merge:
+    merge:     # <-- This enable merge dictionaries           
       mariadb:
         enabled: true
       mariadb_install:      
@@ -85,7 +85,7 @@ Role recursive merge:
   become: true
 
   vars:
-    merge:
+    merge:    # <-- This enable merge dictionaries
       mariadb:
         enabled: true
       mariadb_install:      
@@ -107,7 +107,7 @@ Role recursive merge:
   become: true
 
   vars:
-    merge:
+    merge:    # <-- This enable merge dictionaries
       mariadb:
         enabled: true
         version: "10.6"
@@ -130,7 +130,7 @@ Role recursive merge:
   become: true
 
   vars:
-    merge:
+    merge:    # <-- This enable merge dictionaries
       mariadb:
         enabled: true
       mariadb_config:
