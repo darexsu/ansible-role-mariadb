@@ -5,8 +5,7 @@
 |  Testing         |  Debian            |  Ubuntu         |  Rocky Linux  | Oracle Linux |
 | :--------------: | :----------------: | :-------------: | :-----------: | :----------: |
 | Distro version   |  10, 11            | 18.04, 20.04    |  8            | 8            |
-| Distro repo      |  - [x]             |   - [x]         |    - [x]      |  - [x]       |    
-| Trird-party repo |  mariadb.org       |   mariadb.org   |   mariadb.org |  mariadb.org   | 
+| Trird-party repo |  mariadb.org       |   mariadb.org   |   mariadb.org |  mariadb.org | 
 ### 1) Install role from Galaxy
 ```
 ansible-galaxy install darexsu.mariadb --force
