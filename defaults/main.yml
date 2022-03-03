@@ -60,7 +60,7 @@ mariadb_const:
     config_path: "/etc/mysql/mariadb.conf.d/"
     mariadb_repo: "deb [arch=amd64,arm64,ppc64el] http://sfo1.mirrors.digitalocean.com/mariadb/repo/{{ mariadb.version }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
     mariadb_gpg: "https://mariadb.org/mariadb_release_signing_key.asc"
-    pid-file: /run/mysqld/mysqld.pid
+    pid-file: "/run/mysqld/mysqld.pid"
     socket: "/run/mysqld/mysqld.sock"
   RedHat:
     config_file: "mariadb-server.cnf"
