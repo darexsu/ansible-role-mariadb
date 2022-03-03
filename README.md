@@ -19,7 +19,7 @@ ansible-galaxy install darexsu.mariadb --force
     - [install from official repo](#install-mariadb-from-official-repo)
     - [install {version} from third-party repo](#install-mariadb-from-third-party-repo)
   - config
-    - [edit server.cnf](#copy-config)
+    - [configure server.cnf](#configure-servercnf)
 
 Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
 ```
