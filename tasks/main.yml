@@ -1,11 +1,11 @@
 ---
 - name: merge dictionaries
   block:
-  - include_vars: 
+  - include_vars:
       file: ../../darexsu.mariadb/defaults/main.yml
       name: mariadb_default_vars
-  
-  - name: merge default and new dictionaries 
+
+  - name: merge default and new dictionaries
     set_fact:
       "{{ item.key }}": "{{ mariadb_default_vars[item.key] | combine(merge[item.key], recursive=True)}}"
     when: mariadb_default_vars[item.key] is defined
@@ -21,15 +21,19 @@
   when: not mariadb.enabled
 
 - name: include mariadb install
-  include_tasks: ./tasks/install/mariadb_install__{{ ansible_os_family | lower }}.yml
+  include_tasks: ./tasks/install/mariadb_install__{{ ansible_os_family }}.yml
   when: mariadb_install.enabled
 
 - name: include mariadb config
-  include_tasks: ./tasks/config/mariadb_config__{{ ansible_os_family | lower }}.yml
-  when: mariadb_config.enabled  
-  
-- name: "service status {{ mariadb.service.state }} mariadb"
+  include_tasks: ./tasks/config/mariadb_config.yml
+  when: mariadb_config.enabled
+
+- name: service facts
+  ansible.builtin.service_facts:
+
+- name: "ensure mariadb {{ mariadb.service.state }}"
   ansible.builtin.service:
     name: mariadb
     state: "{{ mariadb.service.state }}"
     enabled: "{{ mariadb.service.enabled }}"
+  when: ansible_facts.services is search("mariadb")

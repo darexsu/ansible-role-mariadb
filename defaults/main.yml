@@ -1,47 +1,71 @@
 ---
-# global
-#   ├── repo
+# mariadb
 #   ├── install
 #   |    ├── packages
 #   |    └── dependencies#
-#   └── config
-#        └── server.cnf 
+#   ├── config
+#   |    └── server.cnf
+#   └── remove
 
-# global
+# MariaDB
 mariadb:
   enabled: false
+  src: "distribution"
   version: ""
   service:
     state: "started"
-    enabled: yes
+    enabled: true
 
-# repo
-mariadb_repo:
-  enabled: false
-  deb: "deb [arch=amd64,arm64,ppc64el] http://sfo1.mirrors.digitalocean.com/mariadb/repo/{{ mariadb.version }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
-  deb_key: "https://mariadb.org/mariadb_release_signing_key.asc"
-  rpm: "http://yum.mariadb.org/{{ mariadb.version }}/rhel/$releasever/$basearch"
-  rpm_key: "https://yum.mariadb.org/RPM-GPG-KEY-MariaDB"
-
-# install
+# MariaDB -> install
 mariadb_install:
   enabled: false
-  packages: [mariadb-server]
+  packages:
+    Debian: [mariadb-server]
+    RedHat: [mariadb-server]
   dependencies:
-    debian: [gnupg2, python3, python3-pymysql]
-    redhat: [python3, python3-PyMySQL]
-  remove_old:
-    enabled: false
-    packages: [mariadb-server, mariadb-client, mysql-server, mysql-client]
+    Debian: [gnupg2, python3, python3-pymysql]
+    RedHat: [python3, python3-PyMySQL]
 
-# config
+# MariaDB -> config
 mariadb_config:
-  enabled: false   
-  file:
-    debian: "50-server.cnf"
-    redhat: "server.cnf"   
-  src: ""
-  path:
-    debian: "/etc/mysql/mariadb.conf.d/"
-    redhat: "/etc/my.cnf.d/"
+  enabled: false
+  file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
+  src: "mariadb__server.conf.j2"
   backup: false
+  vars:
+    user: "mysql"
+    pid-file: "{{ mariadb_const[ansible_os_family]['pid-file'] }}"
+    socket: "{{ mariadb_const[ansible_os_family]['socket'] }}"
+    basedir: "/usr"
+    datadir: "/var/lib/mysql"
+    tmpdir: "/tmp"
+    lc-messages-dir: "/usr/share/mysql"
+    lc-messages: "en_US"
+    bind-address: "127.0.0.1"
+    expire_logs_days: "10"
+    character-set-server: "utf8mb4"
+    collation-server: "utf8mb4_general_ci"
+
+# MariaDB -> remove
+mariadb_remove:
+  enabled: false
+  packages:
+    Debian:  [mariadb-server, mariadb-client, mysql-server, mysql-client]
+    RedHat:  [mariadb-server, mariadb-client, mysql-server, mysql-client]
+
+# MariaDB -> constants
+mariadb_const:
+  Debian:
+    config_file: "50-server.cnf"
+    config_path: "/etc/mysql/mariadb.conf.d/"
+    mariadb_repo: "deb [arch=amd64,arm64,ppc64el] http://sfo1.mirrors.digitalocean.com/mariadb/repo/{{ mariadb.version }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+    mariadb_gpg: "https://mariadb.org/mariadb_release_signing_key.asc"
+    pid-file: /run/mysqld/mysqld.pid
+    socket: "/run/mysqld/mysqld.sock"
+  RedHat:
+    config_file: "mariadb-server.cnf"
+    config_path: "/etc/my.cnf.d/"
+    mariadb_repo: "http://yum.mariadb.org/{{ mariadb.version }}/rhel/$releasever/$basearch"
+    mariadb_gpg: "https://yum.mariadb.org/RPM-GPG-KEY-MariaDB"
+    pid-file: "/var/lib/mysql/mariadb.pid"
+    socket: "/var/lib/mysql/mysql.sock"

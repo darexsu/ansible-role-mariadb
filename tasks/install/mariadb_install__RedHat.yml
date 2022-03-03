@@ -1,0 +1,41 @@
+---
+- name: ensure dependencies are installed.
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items: "{{ mariadb_install['dependencies']['RedHat'] }}"
+
+- name: remove old packages.
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: absent
+    update_cache: true
+  ignore_errors: true
+  with_items: "{{ mariadb_remove['packages']['RedHat'] }}"
+  when: mariadb_remove.enabled
+
+- name: add repo for redhat
+  block:
+    - name: import mariadb gpg key
+      ansible.builtin.rpm_key:
+        key: "{{ mariadb_const[ansible_os_family]['mariadb_gpg'] }}"
+        state: present
+
+    - name: add repository
+      ansible.builtin.yum_repository:
+        name: mariadb
+        description: Mariadb YUM repo
+        baseurl: "{{ mariadb_const[ansible_os_family]['mariadb_repo'] }}"
+        gpgcheck: yes
+        enabled: true
+        module_hotfixes: true
+  when: mariadb.src == "third_party"
+
+- name: install mariadb packages.
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  ignore_errors: true
+  with_items: "{{ mariadb_install['packages']['RedHat'] }}"
