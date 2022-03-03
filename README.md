@@ -5,7 +5,8 @@
 |  Testing         |  Debian            |  Ubuntu         |  Rocky Linux  | Oracle Linux |
 | :--------------: | :----------------: | :-------------: | :-----------: | :----------: |
 | Distro version   |  10, 11            | 18.04, 20.04    |  8            | 8            |
-| Third-party repo |  mariadb.org       |   mariadb.org   |   mariadb.org |  mariadb.org | 
+| Trird-party repo |  mariadb.org       |   mariadb.org   |   mariadb.org |  mariadb.org | 
+
 ### 1) Install role from Galaxy
 ```
 ansible-galaxy install darexsu.mariadb --force
@@ -13,25 +14,25 @@ ansible-galaxy install darexsu.mariadb --force
 
 ### 2) Example playbooks: 
 
-- [full playbook](#example-playbook-full-playbook)
+- [full playbook](#full-playbook)
   - install
-    - [MariaDB from official repo](#example-playbook-install-mariadb-from-official-repo)
-    - [MariaDB {version} from third-party repo](#example-playbook-install-mariadb-from-third-party-repo)
+    - [install from official repo](#install-mariadb-from-official-repo)
+    - [install {version} from third-party repo](#install-mariadb-from-third-party-repo)
   - config
-    - [copy config](#example-playbook-copy-config)
+    - [edit server.cnf](#copy-config)
 
-Replace dictionary and Merge dictionary (with "hash_behaviour=replace" in ansible.cfg):
+Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
 ```
+# Replace             # Merge
 [host_vars]           [host_vars]
 ---                   ---
   vars:                 vars:
-    dict:                 merge:  <-- # Enable Merge
+    dict:                 merge:
       a: "value"            dict: 
       b: "value"              a: "value" 
                               b: "value"
-```
-Role recursive merge:
-```
+
+# Role recursive merge:
 [host_vars]     [current role]    [include_role]
   
   dict:          dict:              dict:
@@ -41,29 +42,40 @@ Role recursive merge:
     
 ```
 
-##### Example playbook: full playbook
+##### full playbook
 ```yaml
 ---
 - hosts: all
   become: true
 
   vars:
-    merge:     # <-- This enable merge dictionaries           
+    merge:
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             MariaDB 
       mariadb:
+        enabled: true  
+        src: "distribution"
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install MariaDB
+      mariadb_install:
         enabled: true
-      mariadb_install:      
-        enabled: true
-        packages: [mariadb-server]
-        dependencies:
-          debian: [gnupg2, python3, python3-pymysql]
-          redhat: [python3, python3-PyMySQL]
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             config server.cnf 
       mariadb_config:
         enabled: true   
-        file:
-          debian: "50-server.cnf"
-          redhat: "server.cnf"   
-        src: "~/path_to/my_template.j2"
-        backup: true
+        file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
+        src: "mariadb__server.conf.j2"  
+        backup: false
+        vars:
+          user: "mysql"
+          pid-file: "{{ mariadb_const[ansible_os_family]['pid-file'] }}"
+          socket: "{{ mariadb_const[ansible_os_family]['socket'] }}"
+          basedir: "/usr"
+          datadir: "/var/lib/mysql"    
+          tmpdir: "/tmp"
+          lc-messages-dir: "/usr/share/mysql"
+          lc-messages: "en_US"
+          bind-address: "127.0.0.1"
+          expire_logs_days: "10"
+          character-set-server: "utf8mb4"
+          collation-server: "utf8mb4_general_ci"
   
   tasks:
     - name: include role darexsu.mariadb
@@ -71,43 +83,20 @@ Role recursive merge:
         name: darexsu.mariadb
 ```
 
-##### Example playbook: install MariaDB from official repo
+##### install MariaDB from official repo
 ```yaml
 ---
 - hosts: all
   become: true
 
   vars:
-    merge:    # <-- This enable merge dictionaries
+    merge:
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             MariaDB 
       mariadb:
-        enabled: true
-      mariadb_install:      
-        enabled: true
-        packages: [mariadb-server]
-        dependencies:
-          debian: [gnupg2, python3, python3-pymysql]
-          redhat: [python3, python3-PyMySQL]
-  
-  tasks:
-    - name: include role darexsu.mariadb
-      include_role: 
-        name: darexsu.mariadb
-```
-##### Example playbook: install MariaDB from third-party repo
-```yaml
----
-- hosts: all
-  become: true
-
-  vars:
-    merge:    # <-- This enable merge dictionaries
-      mariadb:
-        enabled: true
-        version: "10.6"
-      mariadb_install:      
-        enabled: true
-        packages: [mariadb-server]
-      mariadb_repo:
+        enabled: true  
+        src: "distribution"   # <-- enable official repo
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install MariaDB
+      mariadb_install:
         enabled: true
   
   tasks:
@@ -115,24 +104,62 @@ Role recursive merge:
       include_role: 
         name: darexsu.mariadb
 ```
-
-##### Example playbook: copy config
+##### install MariaDB from third-party repo
 ```yaml
 ---
 - hosts: all
   become: true
 
   vars:
-    merge:    # <-- This enable merge dictionaries
+    merge:
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             MariaDB
+      mariadb:
+        enabled: true  
+        src: "third_party"    # <-- enable third_party repo
+        version: "10.6"       # <-- set version
+        service:
+          state: "started"
+          enabled: true    
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install MariaDB
+      mariadb_install:
+        enabled: true
+  
+  tasks:
+    - name: include role darexsu.mariadb
+      include_role: 
+        name: darexsu.mariadb
+```
+
+##### configure server.cnf
+```yaml
+---
+- hosts: all
+  become: true
+
+  vars:
+    merge:
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             MariaDB 
       mariadb:
         enabled: true
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             config server.cnf 
       mariadb_config:
         enabled: true   
-        file:
-          debian: "50-server.cnf"
-          redhat: "server.cnf"   
-        src: "~/path_to/my_template.j2"
-        backup: true
+        file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
+        src: "mariadb__server.conf.j2"  
+        backup: false
+        vars:
+          user: "mysql"
+          pid-file: "{{ mariadb_const[ansible_os_family]['pid-file'] }}"
+          socket: "{{ mariadb_const[ansible_os_family]['socket'] }}"
+          basedir: "/usr"
+          datadir: "/var/lib/mysql"    
+          tmpdir: "/tmp"
+          lc-messages-dir: "/usr/share/mysql"
+          lc-messages: "en_US"
+          bind-address: "127.0.0.1"
+          expire_logs_days: "10"
+          character-set-server: "utf8mb4"
+          collation-server: "utf8mb4_general_ci"
   
   tasks:
     - name: include role darexsu.mariadb

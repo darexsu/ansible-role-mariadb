@@ -1,24 +1,50 @@
 ---
 - name: Converge
   hosts: all
-  
+
   pre_tasks:
   - name: Unnessessary command
     ansible.builtin.shell:
       cmd: "{{ lookup('env', 'ANSIBLE_COMMAND') }}"
     when: lookup('env', 'ANSIBLE_COMMAND') | length > 0
-  
+
   vars:
     merge:
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             MariaDB
       mariadb:
         enabled: true
+        src: "third_party"
         version: "10.6"
+        service:
+          state: "started"
+          enabled: true
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             remove MariaDB
+      mariadb_remove:
+        enabled: true
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install MariaDB
       mariadb_install:
         enabled: true
-      mariadb_repo:
-        enabled: true      
-  
+    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             config server.cnf
+      mariadb_config:
+        enabled: true
+        file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
+        src: "mariadb__server.conf.j2"
+        backup: true
+        vars:
+          user: "mysql"
+          pid-file: "{{ mariadb_const[ansible_os_family]['pid-file'] }}"
+          socket: "{{ mariadb_const[ansible_os_family]['socket'] }}"
+          basedir: "/usr"
+          datadir: "/var/lib/mysql"
+          tmpdir: "/tmp"
+          lc-messages-dir: "/usr/share/mysql"
+          lc-messages: "en_US"
+          bind-address: "127.0.0.1"
+          expire_logs_days: "11"
+          character-set-server: "utf8mb4"
+          collation-server: "utf8mb4_general_ci"
+
   tasks:
     - name: include role mariadb
-      include_role: 
+      include_role:
         name: darexsu.mariadb

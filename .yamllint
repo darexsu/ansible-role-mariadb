@@ -10,6 +10,8 @@ rules:
     level: error
   line-length: disable
   truthy: disable
+  new-line-at-end-of-file: disable
+  colons: disable
 
 ignore: |
   .tox/

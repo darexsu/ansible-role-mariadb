@@ -2,9 +2,9 @@
 galaxy_info:
   author: "darexsu"
   role_name: "mariadb"
-  description: "install and configure mariadb"
+  description: "install and configure mariadb from distro or third party repo"
   company: ""
-  license: "license (BSD, MIT)"
+  license: "license (MIT)"
   min_ansible_version: 2.9
   platforms:
     - name: Debian

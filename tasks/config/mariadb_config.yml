@@ -1,8 +1,8 @@
 ---
-- name: copy server.cnf to remote node
+- name: edit server.cnf config
   ansible.builtin.template:
     src: "{{ mariadb_config.src }}"
-    dest: "{{ mariadb_config.path.redhat }}{{ mariadb_config.file.redhat }}"
+    dest: "{{ mariadb_const[ansible_os_family]['config_path'] }}{{ mariadb_config['file'] }}"
     owner: root
     group: root
     mode: 0644
