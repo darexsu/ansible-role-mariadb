@@ -5,7 +5,7 @@
 |  Testing         |  Debian            |  Ubuntu         |  Rocky Linux  | Oracle Linux |
 | :--------------: | :----------------: | :-------------: | :-----------: | :----------: |
 | Distro version   |  10, 11            | 18.04, 20.04    |  8            | 8            |
-| Trird-party repo |  mariadb.org       |   mariadb.org   |   mariadb.org |  mariadb.org | 
+| Third-party repo |  mariadb.org       |   mariadb.org   |   mariadb.org |  mariadb.org | 
 
 ### 1) Install role from Galaxy
 ```
