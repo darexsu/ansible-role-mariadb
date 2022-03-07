@@ -10,7 +10,7 @@
 
   vars:
     merge:
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             MariaDB
+      # MariaDB
       mariadb:
         enabled: true
         src: "third_party"
@@ -18,13 +18,13 @@
         service:
           state: "started"
           enabled: true
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             remove MariaDB
+      # MariaDB -> remove
       mariadb_remove:
         enabled: true
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install MariaDB
+      # MariaDB -> install
       mariadb_install:
         enabled: true
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             config server.cnf
+      # MariaDB -> config server.cnf
       mariadb_config:
         enabled: true
         file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
