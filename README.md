@@ -2,10 +2,15 @@
 
 [![CI Molecule](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml/badge.svg)](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml)&emsp;![](https://img.shields.io/static/v1?label=idempotence&message=ok&color=success)&emsp;![Ansible Role](https://img.shields.io/ansible/role/d/57634?color=blue&label=downloads)
 
-|  Testing         |  Debian            |  Ubuntu         |  Rocky Linux  | Oracle Linux |
-| :--------------: | :----------------: | :-------------: | :-----------: | :----------: |
-| Distro version   |  10, 11            | 18.04, 20.04    |  8            | 8            |
-| Trird-party repo |  mariadb.org       |   mariadb.org   |   mariadb.org |  mariadb.org | 
+
+|  Testing         |  Official repo     |  Third-party repo |
+| :--------------: | :----------------: | :-------------:   |
+| Debian 11        |  mariadb 10.5      |    mariadb.org    |
+| Debian 10        |  mariadb 10.3      |    mariadb.org    |
+| Ubuntu 20.04     |  mariadb 10.3      |    mariadb.org    |
+| Ubuntu 18.04     |  mariadb 10.1      |    mariadb.org    |
+| Oracle Linux 8   |  mariadb 10.3-10.5 |    mariadb.org    |
+| Rocky Linux 8    |  mariadb 10.3-10.5 |    mariadb.org    |
 
 ### 1) Install role from Galaxy
 ```
@@ -50,14 +55,14 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
 
   vars:
     merge:
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             MariaDB 
+      # MariaDB
       mariadb:
         enabled: true  
         src: "distribution"
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install MariaDB
+      # MariaDB -> install
       mariadb_install:
         enabled: true
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             config server.cnf 
+      # MariaDB -> config server.cnf 
       mariadb_config:
         enabled: true   
         file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
@@ -91,11 +96,12 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
 
   vars:
     merge:
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             MariaDB 
+      # MariaDB
       mariadb:
-        enabled: true  
-        src: "distribution"   # <-- enable official repo
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install MariaDB
+        enabled: true
+      # MariaDB -> enable official repo   
+        src: "distribution"
+      # MariaDB -> install
       mariadb_install:
         enabled: true
   
@@ -112,15 +118,16 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
 
   vars:
     merge:
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             MariaDB
+      # MariaDB
       mariadb:
         enabled: true  
-        src: "third_party"    # <-- enable third_party repo
-        version: "10.6"       # <-- set version
+      # MariaDB -> enable third_party repo 
+        src: "third_party"
+        version: "10.6"
         service:
           state: "started"
           enabled: true    
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install MariaDB
+      # MariaDB -> enable third_party repo
       mariadb_install:
         enabled: true
   
@@ -138,10 +145,10 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
 
   vars:
     merge:
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             MariaDB 
+      # MariaDB
       mariadb:
         enabled: true
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             config server.cnf 
+      # MariaDB -> config server.cnf 
       mariadb_config:
         enabled: true   
         file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
