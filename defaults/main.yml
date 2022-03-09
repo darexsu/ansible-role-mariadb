@@ -50,8 +50,8 @@ mariadb_config:
 mariadb_remove:
   enabled: false
   packages:
-    Debian:  [mariadb-server, mariadb-client, mysql-server, mysql-client]
-    RedHat:  [mariadb-server, mariadb-client, mysql-server, mysql-client]
+    Debian: [mariadb-server, mariadb-client, mysql-server, mysql-client]
+    RedHat: [mariadb-server, mariadb-client, mysql-server, mysql-client]
 
 # MariaDB -> constants
 mariadb_const:
