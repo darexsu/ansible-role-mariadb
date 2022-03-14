@@ -2,6 +2,23 @@
 
 [![CI Molecule](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml/badge.svg)](https://github.com/darexsu/ansible-role-mariadb/actions/workflows/ci.yml)&emsp;![](https://img.shields.io/static/v1?label=idempotence&message=ok&color=success)&emsp;![Ansible Role](https://img.shields.io/ansible/role/d/57634?color=blue&label=downloads)
 
+  - Role:
+      - [platforms](#platforms)
+      - [install](#install)
+      - [behaviour](#behaviour)
+  - Playbooks (short version):
+      - [install and configure: MariaDB](#install-and-configure-mariadb-short-version)
+          - [install: MariaDB from official repo](#install-mariadb-from-official-repo-short-version)
+          - [install: MariaDB from third-party repo](#install-mariadb-from-third-party-repo-short-version)
+          - [configure: server.conf](#configure-serverconf-short-version)
+  - Playbooks (full version):
+      - [install and configure: MariaDB](#install-and-configure-mariadb-full-version)
+          - [install: MariaDB from official repo](#install-mariadb-from-official-repo-full-version)
+          - [install: MariaDB from third-party repo](#install-mariadb-from-third-party-repo-full-version)
+          - [configure: server.conf](#configure-serverconf-full-version)
+
+### Platforms
+
 |  Testing         |  Official repo     |  Third-party repo |
 | :--------------: | :----------------: | :-------------:   |
 | Debian 11        |  mariadb 10.5      |    mariadb.org    |
@@ -11,19 +28,13 @@
 | Oracle Linux 8   |  mariadb 10.3-10.5 |    mariadb.org    |
 | Rocky Linux 8    |  mariadb 10.3-10.5 |    mariadb.org    |
 
-### 1) Install role from Galaxy
+### Install
+
 ```
 ansible-galaxy install darexsu.mariadb --force
 ```
 
-### 2) Example playbooks: 
-
-- [full playbook](#full-playbook)
-  - install
-    - [install from official repo](#install-mariadb-from-official-repo)
-    - [install {version} from third-party repo](#install-mariadb-from-third-party-repo)
-  - config
-    - [configure server.cnf](#configure-servercnf)
+### Behaviour
 
 Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
 ```
@@ -46,7 +57,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     
 ```
 
-##### full playbook
+##### Install and configure: MySQL (short version)
 ```yaml
 ---
 - hosts: all
@@ -56,23 +67,20 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     merge:
       # MariaDB
       mariadb:
-        enabled: true  
+        enabled: true
         src: "distribution"
       # MariaDB -> install
       mariadb_install:
         enabled: true
-      # MariaDB -> config server.cnf 
+      # MariaDB -> config
       mariadb_config:
-        enabled: true   
-        file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
-        src: "mariadb__server.conf.j2"  
-        backup: false
+        enabled: true
         vars:
           user: "mysql"
           pid-file: "{{ mariadb_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mariadb_const[ansible_os_family]['socket'] }}"
           basedir: "/usr"
-          datadir: "/var/lib/mysql"    
+          datadir: "/var/lib/mysql"
           tmpdir: "/tmp"
           lc-messages-dir: "/usr/share/mysql"
           lc-messages: "en_US"
@@ -80,14 +88,14 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
           expire_logs_days: "10"
           character-set-server: "utf8mb4"
           collation-server: "utf8mb4_general_ci"
-  
+
   tasks:
     - name: include role darexsu.mariadb
       include_role: 
         name: darexsu.mariadb
 ```
 
-##### install MariaDB from official repo
+##### Install: MySQL from official repo (short version)
 ```yaml
 ---
 - hosts: all
@@ -98,18 +106,17 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       # MariaDB
       mariadb:
         enabled: true
-      # MariaDB -> enable official repo   
         src: "distribution"
       # MariaDB -> install
       mariadb_install:
         enabled: true
-  
+
   tasks:
     - name: include role darexsu.mariadb
       include_role: 
         name: darexsu.mariadb
 ```
-##### install MariaDB from third-party repo
+##### Install: MySQL from third-party repo (short version)
 ```yaml
 ---
 - hosts: all
@@ -119,16 +126,97 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     merge:
       # MariaDB
       mariadb:
-        enabled: true  
-      # MariaDB -> enable third_party repo 
+        enabled: true
         src: "third_party"
-        version: "10.6"
+        version: "8.0"
+      # MariaDB -> install
+      mariadb_install:
+        enabled: true
+
+  tasks:
+    - name: include role darexsu.mariadb
+      include_role: 
+        name: darexsu.mariadb
+```
+
+##### Configure: server.conf (short version)
+```yaml
+---
+- hosts: all
+  become: true
+
+  vars:
+    merge:
+      # MariaDB
+      mariadb:
+        enabled: true
+        src: "distribution"
+      # MariaDB -> config
+      mariadb_config:
+        enabled: true
+        vars:
+          user: "mysql"
+          pid-file: "{{ mariadb_const[ansible_os_family]['pid-file'] }}"
+          socket: "{{ mariadb_const[ansible_os_family]['socket'] }}"
+          basedir: "/usr"
+          datadir: "/var/lib/mysql"
+          tmpdir: "/tmp"
+          lc-messages-dir: "/usr/share/mysql"
+          lc-messages: "en_US"
+          bind-address: "127.0.0.1"
+          expire_logs_days: "10"
+          character-set-server: "utf8mb4"
+          collation-server: "utf8mb4_general_ci"
+
+  tasks:
+    - name: include role darexsu.mariadb
+      include_role: 
+        name: darexsu.mariadb
+```
+##### Install and configure: MySQL (full version)
+```yaml
+---
+- hosts: all
+  become: true
+
+  vars:
+    merge:
+      # MariaDB
+      mariadb:
+        enabled: true
+        src: "distribution"
+        version: ""
         service:
           state: "started"
-          enabled: true    
-      # MariaDB -> enable third_party repo
+          enabled: true
+      # MariaDB -> install
       mariadb_install:
         enabled: true
+        packages:
+          Debian: [mariadb-server]
+          RedHat: [mariadb-server]
+        dependencies:
+          Debian: [gnupg2, python3, python3-pymysql]
+          RedHat: [python3, python3-PyMySQL]
+      # MariaDB -> config
+      mariadb_config:
+        enabled: true
+        file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
+        src: "mariadb__server.conf.j2"
+        backup: false
+        vars:
+          user: "mysql"
+          pid-file: "{{ mariadb_const[ansible_os_family]['pid-file'] }}"
+          socket: "{{ mariadb_const[ansible_os_family]['socket'] }}"
+          basedir: "/usr"
+          datadir: "/var/lib/mysql"
+          tmpdir: "/tmp"
+          lc-messages-dir: "/usr/share/mysql"
+          lc-messages: "en_US"
+          bind-address: "127.0.0.1"
+          expire_logs_days: "10"
+          character-set-server: "utf8mb4"
+          collation-server: "utf8mb4_general_ci"
   
   tasks:
     - name: include role darexsu.mariadb
@@ -136,7 +224,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
         name: darexsu.mariadb
 ```
 
-##### configure server.cnf
+##### Install: MySQL from official repo (full version)
 ```yaml
 ---
 - hosts: all
@@ -147,18 +235,86 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       # MariaDB
       mariadb:
         enabled: true
-      # MariaDB -> config server.cnf 
+        src: "distribution"
+        version: ""
+        service:
+          state: "started"
+          enabled: true
+      # MariaDB -> install
+      mariadb_install:
+        enabled: true
+        packages:
+          Debian: [mariadb-server]
+          RedHat: [mariadb-server]
+        dependencies:
+          Debian: [gnupg2, python3, python3-pymysql]
+          RedHat: [python3, python3-PyMySQL]
+
+  tasks:
+    - name: include role darexsu.mariadb
+      include_role: 
+        name: darexsu.mariadb
+```
+##### Install: MySQL from third-party repo (full version)
+```yaml
+---
+- hosts: all
+  become: true
+
+  vars:
+    merge:
+      # MariaDB
+      mariadb:
+        enabled: true
+        src: "third_party"
+        version: "8.0"
+        service:
+          state: "started"
+          enabled: true
+      # MariaDB -> install
+      mariadb_install:
+        enabled: true
+        packages:
+          Debian: [mariadb-server]
+          RedHat: [mariadb-server]
+        dependencies:
+          Debian: [gnupg2, python3, python3-pymysql]
+          RedHat: [python3, python3-PyMySQL]
+
+  tasks:
+    - name: include role darexsu.mariadb
+      include_role: 
+        name: darexsu.mariadb
+```
+
+##### Configure: server.conf (full version)
+```yaml
+---
+- hosts: all
+  become: true
+
+  vars:
+    merge:
+      # MariaDB
+      mariadb:
+        enabled: true
+        src: "distribution"
+        version: ""
+        service:
+          state: "started"
+          enabled: true
+      # MariaDB -> config
       mariadb_config:
-        enabled: true   
+        enabled: true
         file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
-        src: "mariadb__server.conf.j2"  
+        src: "mariadb__server.conf.j2"
         backup: false
         vars:
           user: "mysql"
           pid-file: "{{ mariadb_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mariadb_const[ansible_os_family]['socket'] }}"
           basedir: "/usr"
-          datadir: "/var/lib/mysql"    
+          datadir: "/var/lib/mysql"
           tmpdir: "/tmp"
           lc-messages-dir: "/usr/share/mysql"
           lc-messages: "en_US"
@@ -166,7 +322,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
           expire_logs_days: "10"
           character-set-server: "utf8mb4"
           collation-server: "utf8mb4_general_ci"
-  
+
   tasks:
     - name: include role darexsu.mariadb
       include_role: 
