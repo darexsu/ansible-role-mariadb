@@ -57,7 +57,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     
 ```
 
-##### Install and configure: MySQL (short version)
+##### Install and configure: MariaDB (short version)
 ```yaml
 ---
 - hosts: all
@@ -95,7 +95,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
         name: darexsu.mariadb
 ```
 
-##### Install: MySQL from official repo (short version)
+##### Install: MariaDB from official repo (short version)
 ```yaml
 ---
 - hosts: all
@@ -116,7 +116,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       include_role: 
         name: darexsu.mariadb
 ```
-##### Install: MySQL from third-party repo (short version)
+##### Install: MariaDB from third-party repo (short version)
 ```yaml
 ---
 - hosts: all
@@ -173,7 +173,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       include_role: 
         name: darexsu.mariadb
 ```
-##### Install and configure: MySQL (full version)
+##### Install and configure: MariaDB (full version)
 ```yaml
 ---
 - hosts: all
@@ -224,7 +224,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
         name: darexsu.mariadb
 ```
 
-##### Install: MySQL from official repo (full version)
+##### Install: MariaDB from official repo (full version)
 ```yaml
 ---
 - hosts: all
@@ -255,7 +255,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       include_role: 
         name: darexsu.mariadb
 ```
-##### Install: MySQL from third-party repo (full version)
+##### Install: MariaDB from third-party repo (full version)
 ```yaml
 ---
 - hosts: all
