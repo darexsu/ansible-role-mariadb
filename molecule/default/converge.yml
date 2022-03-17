@@ -10,40 +10,44 @@
     when: lookup('env', 'ANSIBLE_COMMAND') | length > 0
 
   vars:
-    merge:
-      # MariaDB
-      mariadb:
+    # MariaDB
+    mariadb:
+      enabled: true
+      src: "third_party"
+      version: "10.6"
+      service:
+        state: "started"
         enabled: true
-        src: "third_party"
-        version: "10.6"
-        service:
-          state: "started"
-          enabled: true
-      # MariaDB -> remove
-      mariadb_remove:
-        enabled: true
-      # MariaDB -> install
-      mariadb_install:
-        enabled: true
-      # MariaDB -> config server.cnf
-      mariadb_config:
-        enabled: true
-        file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
-        src: "mariadb__server.conf.j2"
-        backup: true
-        vars:
-          user: "mysql"
-          pid-file: "{{ mariadb_const[ansible_os_family]['pid-file'] }}"
-          socket: "{{ mariadb_const[ansible_os_family]['socket'] }}"
-          basedir: "/usr"
-          datadir: "/var/lib/mysql"
-          tmpdir: "/tmp"
-          lc-messages-dir: "/usr/share/mysql"
-          lc-messages: "en_US"
-          bind-address: "127.0.0.1"
-          expire_logs_days: "11"
-          character-set-server: "utf8mb4"
-          collation-server: "utf8mb4_general_ci"
+
+    # MariaDB -> install
+    mariadb_install:
+      enabled: true
+      packages:
+        Debian: [mariadb-server]
+        RedHat: [mariadb-server]
+      dependencies:
+        Debian: [gnupg2, python3, python3-pymysql]
+        RedHat: [python3, python3-PyMySQL]
+
+    # MariaDB -> config
+    mariadb_config:
+      enabled: true
+      file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
+      src: "mariadb_server.conf.j2"
+      backup: false
+      data:
+        user: "mysql"
+        pid-file: "{{ mariadb_const[ansible_os_family]['pid-file'] }}"
+        socket: "{{ mariadb_const[ansible_os_family]['socket'] }}"
+        basedir: "/usr"
+        datadir: "/var/lib/mysql"
+        tmpdir: "/tmp"
+        lc-messages-dir: "/usr/share/mysql"
+        lc-messages: "en_US"
+        bind-address: "127.0.0.1"
+        expire_logs_days: "10"
+        character-set-server: "utf8mb4"
+        collation-server: "utf8mb4_general_ci"
 
   tasks:
     - name: include role mariadb

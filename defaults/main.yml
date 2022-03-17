@@ -1,11 +1,10 @@
 ---
-# mariadb
+# MariaDB
 #   ├── install
 #   |    ├── packages
-#   |    └── dependencies#
-#   ├── config
-#   |    └── server.cnf
-#   └── remove
+#   |    └── dependencies
+#   └── config
+#       └── server.cnf
 
 # MariaDB
 mariadb:
@@ -30,9 +29,9 @@ mariadb_install:
 mariadb_config:
   enabled: false
   file: "{{ mariadb_const[ansible_os_family]['config_file']}}"
-  src: "mariadb__server.conf.j2"
+  src: "mariadb_server.conf.j2"
   backup: false
-  vars:
+  data:
     user: "mysql"
     pid-file: "{{ mariadb_const[ansible_os_family]['pid-file'] }}"
     socket: "{{ mariadb_const[ansible_os_family]['socket'] }}"
@@ -45,13 +44,6 @@ mariadb_config:
     expire_logs_days: "10"
     character-set-server: "utf8mb4"
     collation-server: "utf8mb4_general_ci"
-
-# MariaDB -> remove
-mariadb_remove:
-  enabled: false
-  packages:
-    Debian: [mariadb-server, mariadb-client, mysql-server, mysql-client]
-    RedHat: [mariadb-server, mariadb-client, mysql-server, mysql-client]
 
 # MariaDB -> constants
 mariadb_const:

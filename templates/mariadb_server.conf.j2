@@ -2,7 +2,7 @@
 [server]
 
 [mysqld]
-{% for key, value in mariadb_config.vars.items() %}  
+{% for key, value in mariadb_config.data.items() %}  
 {{ key }}={{ value }}
 {% endfor %}
 skip-external-locking

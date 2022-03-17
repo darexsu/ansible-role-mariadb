@@ -1,37 +1,38 @@
 ---
-- name: merge dictionaries
+- name: "Merge dictionaries"
   block:
-  - include_vars:
+  - name: "Include register default vars"
+    include_vars:
       file: ../../darexsu.mariadb/defaults/main.yml
       name: mariadb_default_vars
 
-  - name: merge default and new dictionaries
+  - name: "Merge default and new dictionaries"
     set_fact:
       "{{ item.key }}": "{{ mariadb_default_vars[item.key] | combine(merge[item.key], recursive=True)}}"
     when: mariadb_default_vars[item.key] is defined
     with_dict: "{{ merge }}"
 
-  - name: combine defaults vars with merge dictionary
+  - name: "Combine defaults vars with merge dictionary"
     set_fact:
       merge: "{{ mariadb_default_vars | combine(merge, recursive=True)}}"
   when: merge is defined
 
-- name: mariadb role is disabled
+- name: "MariaDB role is disabled"
   meta: end_play
   when: not mariadb.enabled
 
-- name: include mariadb install
-  include_tasks: ./tasks/install/mariadb_install__{{ ansible_os_family }}.yml
+- name: "-> 01_MariaDB_install_{{ ansible_os_family }}.yml"
+  include_tasks: ./tasks/01_MariaDB_install_{{ ansible_os_family }}.yml
   when: mariadb_install.enabled
 
-- name: include mariadb config
-  include_tasks: ./tasks/config/mariadb_config.yml
-  when: mariadb_config.enabled
-
-- name: service facts
+- name: "Service facts"
   ansible.builtin.service_facts:
 
-- name: "ensure mariadb {{ mariadb.service.state }}"
+- name: "-> 02_MariaDB_config.yml"
+  include_tasks: ./tasks/02_MariaDB_config.yml
+  when: ansible_facts.services is search("mariadb") and mariadb_config.enabled
+
+- name: "Ensure MariaDB {{ mariadb.service.state }}"
   ansible.builtin.service:
     name: mariadb
     state: "{{ mariadb.service.state }}"

@@ -1,34 +1,25 @@
 ---
-- name: ensure dependencies are installed.
+- name: "Ensure dependencies are installed"
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
     update_cache: true
   with_items: "{{ mariadb_install['dependencies']['Debian'] }}"
 
-- name: remove old packages.
-  ansible.builtin.apt:
-    name: "{{ item }}"
-    state: absent
-    update_cache: true
-  ignore_errors: true
-  with_items: "{{ mariadb_remove['packages']['Debian'] }}"
-  when: mariadb_remove.enabled
-
-- name: add repo mariadb
+- name: "Add repo MariaDB"
   block:
-    - name: add repository gpg key
+    - name: "Add MariaDB repository gpg key"
       ansible.builtin.apt_key:
         url: "{{ mariadb_const[ansible_os_family]['mariadb_gpg'] }}"
         state: present
 
-    - name: add mariadb repository
+    - name: "Add MariaDB repository"
       ansible.builtin.apt_repository:
         repo: "{{ mariadb_const[ansible_os_family]['mariadb_repo'] }}"
         state: present
   when: mariadb.src == "third_party"
 
-- name: install mariadb packages.
+- name: "Install MariaDB packages"
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
