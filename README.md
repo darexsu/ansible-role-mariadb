@@ -68,7 +68,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       # MariaDB
       mariadb:
         enabled: true
-        repo: "distribution"
+        repo: "mariadb"
       # MariaDB -> install
       mariadb_install:
         enabled: true
@@ -150,7 +150,6 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       # MariaDB
       mariadb:
         enabled: true
-        repo: "distribution"
       # MariaDB -> config
       mariadb_config:
         enabled: true
@@ -183,8 +182,8 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     # MariaDB
     mariadb:
       enabled: true
-      repo: "distribution"
-      version: ""
+      repo: "mariadb"
+      version: "10.5"
       service:
         state: "started"
         enabled: true
@@ -264,7 +263,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     mariadb:
       enabled: true
       repo: "mariadb"
-      version: "8.0"
+      version: "10.5"
       service:
         state: "started"
         enabled: true
