@@ -9,8 +9,8 @@
 # MariaDB
 mariadb:
   enabled: false
-  src: "distribution"
-  version: ""
+  repo: "mariadb"
+  version: "10.5"
   service:
     state: "started"
     enabled: true

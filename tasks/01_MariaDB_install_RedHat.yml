@@ -21,7 +21,7 @@
         gpgcheck: yes
         enabled: true
         module_hotfixes: true
-  when: mariadb.src == "third_party"
+  when: mariadb.repo == "mariadb"
 
 - name: "Install MariaDB packages"
   ansible.builtin.package:

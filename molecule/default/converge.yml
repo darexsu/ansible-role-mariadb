@@ -13,7 +13,7 @@
     # MariaDB
     mariadb:
       enabled: true
-      src: "third_party"
+      repo: "mariadb"
       version: "10.6"
       service:
         state: "started"

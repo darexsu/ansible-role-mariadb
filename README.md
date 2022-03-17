@@ -8,18 +8,18 @@
       - [merge behaviour](#merge-behaviour)
   - Playbooks (merge version):
       - [install and configure: MariaDB](#install-and-configure-mariadb-short-version)
-          - [install: MariaDB from official repo](#install-mariadb-from-official-repo-short-version)
-          - [install: MariaDB from third-party repo](#install-mariadb-from-third-party-repo-short-version)
+          - [install: MariaDB, repository: distribution](#install-mariadb-repository-distribution-short-version)
+          - [install: MariaDB repository: mariadb](#install-mariadb-repository-mariadb-short-version)
           - [configure: server.conf](#configure-serverconf-short-version)
   - Playbooks (full version):
       - [install and configure: MariaDB](#install-and-configure-mariadb-full-version)
-          - [install: MariaDB from official repo](#install-mariadb-from-official-repo-full-version)
-          - [install: MariaDB from third-party repo](#install-mariadb-from-third-party-repo-full-version)
+          - [install: MariaDB, repository: distribution](#install-mariadb-repository-distribution-full-version)
+          - [install: MariaDB repository: mariadb](#install-mariadb-repository-mariadb-full-version)
           - [configure: server.conf](#configure-serverconf-full-version)
 
 ### Platforms
 
-|  Testing         |  Official repo     |  Third-party repo |
+|  Testing         | repo: distribution |  repo: mariadb    |
 | :--------------: | :----------------: | :-------------:   |
 | Debian 11        |  mariadb 10.5      |    mariadb.org    |
 | Debian 10        |  mariadb 10.3      |    mariadb.org    |
@@ -68,7 +68,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       # MariaDB
       mariadb:
         enabled: true
-        src: "distribution"
+        repo: "distribution"
       # MariaDB -> install
       mariadb_install:
         enabled: true
@@ -95,7 +95,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
         name: darexsu.mariadb
 ```
 
-##### Install: MariaDB from official repo (merge version)
+##### Install: MariaDB, repository: distribution (merge version)
 ```yaml
 ---
 - hosts: all
@@ -106,7 +106,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       # MariaDB
       mariadb:
         enabled: true
-        src: "distribution"
+        repo: "distribution"
       # MariaDB -> install
       mariadb_install:
         enabled: true
@@ -116,7 +116,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       include_role: 
         name: darexsu.mariadb
 ```
-##### Install: MariaDB from third-party repo (merge version)
+##### Install: MariaDB, repository: mariadb (merge version)
 ```yaml
 ---
 - hosts: all
@@ -127,7 +127,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       # MariaDB
       mariadb:
         enabled: true
-        src: "third_party"
+        repo: "mariadb"
         version: "8.0"
       # MariaDB -> install
       mariadb_install:
@@ -150,7 +150,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       # MariaDB
       mariadb:
         enabled: true
-        src: "distribution"
+        repo: "distribution"
       # MariaDB -> config
       mariadb_config:
         enabled: true
@@ -183,7 +183,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     # MariaDB
     mariadb:
       enabled: true
-      src: "distribution"
+      repo: "distribution"
       version: ""
       service:
         state: "started"
@@ -223,7 +223,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
         name: darexsu.mariadb
 ```
 
-##### Install: MariaDB from official repo (full version)
+##### Install: MariaDB, repository: distribution (full version)
 ```yaml
 ---
 - hosts: all
@@ -233,7 +233,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     # MariaDB
     mariadb:
       enabled: true
-      src: "distribution"
+      repo: "distribution"
       version: ""
       service:
         state: "started"
@@ -253,7 +253,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       include_role: 
         name: darexsu.mariadb
 ```
-##### Install: MariaDB from third-party repo (full version)
+##### Install: MariaDB, repository: mariadb (full version)
 ```yaml
 ---
 - hosts: all
@@ -263,7 +263,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     # MariaDB
     mariadb:
       enabled: true
-      src: "third_party"
+      repo: "mariadb"
       version: "8.0"
       service:
         state: "started"
@@ -294,7 +294,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     # MariaDB
     mariadb:
       enabled: true
-      src: "distribution"
+      repo: "distribution"
       version: ""
       service:
         state: "started"

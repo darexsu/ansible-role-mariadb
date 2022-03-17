@@ -17,7 +17,7 @@
       ansible.builtin.apt_repository:
         repo: "{{ mariadb_const[ansible_os_family]['mariadb_repo'] }}"
         state: present
-  when: mariadb.src == "third_party"
+  when: mariadb.repo == "mariadb"
 
 - name: "Install MariaDB packages"
   ansible.builtin.apt:
