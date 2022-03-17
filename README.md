@@ -36,7 +36,7 @@ ansible-galaxy install darexsu.mariadb --force
 
 ### Merge behaviour
 
-Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
+Role behaviour: Replace or Merge dictionaries (with "hash_behaviour=replace" in ansible.cfg):
 ```
 # Replace             # Merge
 [host_vars]           [host_vars]
