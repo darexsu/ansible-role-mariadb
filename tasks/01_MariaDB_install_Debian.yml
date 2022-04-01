@@ -4,7 +4,7 @@
     name: "{{ item }}"
     state: present
     update_cache: true
-  with_items: "{{ mariadb_install['dependencies']['Debian'] }}"
+  with_items: "{{ mariadb_const[ansible_os_family]['dependencies'] }}"
 
 - name: "Add repo MariaDB"
   block:
@@ -24,5 +24,4 @@
     name: "{{ item }}"
     state: present
     update_cache: true
-  ignore_errors: true
-  with_items: "{{ mariadb_install['packages']['Debian'] }}"
+  with_items: "{{ mariadb_const[ansible_os_family]['packages'] }}"

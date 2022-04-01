@@ -7,12 +7,12 @@
       - [install](#install)
       - [merge behaviour](#merge-behaviour)
   - Playbooks (merge version):
-      - [install and configure: MariaDB](#install-and-configure-mariadb-merge-version)
+      - [install and configure: MariaDB v8.0](#install-and-configure-mariadb-merge-version)
           - [install: MariaDB, repository: distribution](#install-mariadb-repository-distribution-merge-version)
           - [install: MariaDB, repository: mariadb](#install-mariadb-repository-mariadb-merge-version)
           - [configure: server.conf](#configure-serverconf-merge-version)
   - Playbooks (full version):
-      - [install and configure: MariaDB](#install-and-configure-mariadb-full-version)
+      - [install and configure: MariaDB v8.0](#install-and-configure-mariadb-full-version)
           - [install: MariaDB, repository: distribution](#install-mariadb-repository-distribution-full-version)
           - [install: MariaDB repository: mariadb](#install-mariadb-repository-mariadb-full-version)
           - [configure: server.conf](#configure-serverconf-full-version)
@@ -190,12 +190,6 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     # MariaDB -> install
     mariadb_install:
       enabled: true
-      packages:
-        Debian: [mariadb-server]
-        RedHat: [mariadb-server]
-      dependencies:
-        Debian: [gnupg2, python3, python3-pymysql]
-        RedHat: [python3, python3-PyMySQL]
     # MariaDB -> config
     mariadb_config:
       enabled: true
@@ -240,12 +234,6 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     # MariaDB -> install
     mariadb_install:
       enabled: true
-      packages:
-        Debian: [mariadb-server]
-        RedHat: [mariadb-server]
-      dependencies:
-        Debian: [gnupg2, python3, python3-pymysql]
-        RedHat: [python3, python3-PyMySQL]
 
   tasks:
     - name: include role darexsu.mariadb
@@ -270,12 +258,6 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
     # MariaDB -> install
     mariadb_install:
       enabled: true
-      packages:
-        Debian: [mariadb-server]
-        RedHat: [mariadb-server]
-      dependencies:
-        Debian: [gnupg2, python3, python3-pymysql]
-        RedHat: [python3, python3-PyMySQL]
 
   tasks:
     - name: include role darexsu.mariadb

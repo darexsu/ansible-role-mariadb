@@ -18,12 +18,6 @@ mariadb:
 # MariaDB -> install
 mariadb_install:
   enabled: false
-  packages:
-    Debian: [mariadb-server]
-    RedHat: [mariadb-server]
-  dependencies:
-    Debian: [gnupg2, python3, python3-pymysql]
-    RedHat: [python3, python3-PyMySQL]
 
 # MariaDB -> config
 mariadb_config:
@@ -48,6 +42,8 @@ mariadb_config:
 # MariaDB -> constants
 mariadb_const:
   Debian:
+    packages: [mariadb-server]
+    dependencies: [gnupg2, python3, python3-pymysql]
     config_file: "50-server.cnf"
     config_path: "/etc/mysql/mariadb.conf.d/"
     mariadb_repo: "deb [arch=amd64,arm64,ppc64el] http://sfo1.mirrors.digitalocean.com/mariadb/repo/{{ mariadb.version }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
@@ -55,6 +51,8 @@ mariadb_const:
     pid-file: "/run/mysqld/mysqld.pid"
     socket: "/run/mysqld/mysqld.sock"
   RedHat:
+    packages: [mariadb-server]
+    dependencies: [python3, python3-PyMySQL]
     config_file: "mariadb-server.cnf"
     config_path: "/etc/my.cnf.d/"
     mariadb_repo: "http://yum.mariadb.org/{{ mariadb.version }}/rhel/$releasever/$basearch"
