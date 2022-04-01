@@ -128,7 +128,7 @@ Role behaviour: Replace or Merge dictionaries (with "hash_behaviour=replace" in 
       mariadb:
         enabled: true
         repo: "mariadb"
-        version: "8.0"
+        version: "10.5"
       # MariaDB -> install
       mariadb_install:
         enabled: true
