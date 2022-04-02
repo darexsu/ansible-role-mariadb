@@ -7,12 +7,12 @@
       - [install](#install)
       - [merge behaviour](#merge-behaviour)
   - Playbooks (merge version):
-      - [install and configure: MariaDB v8.0](#install-and-configure-mariadb-merge-version)
+      - [install and configure: MariaDB v10.5](#install-and-configure-mariadb-merge-version)
           - [install: MariaDB, repository: distribution](#install-mariadb-repository-distribution-merge-version)
           - [install: MariaDB, repository: mariadb](#install-mariadb-repository-mariadb-merge-version)
           - [configure: server.conf](#configure-serverconf-merge-version)
   - Playbooks (full version):
-      - [install and configure: MariaDB v8.0](#install-and-configure-mariadb-full-version)
+      - [install and configure: MariaDB v10.5](#install-and-configure-mariadb-full-version)
           - [install: MariaDB, repository: distribution](#install-mariadb-repository-distribution-full-version)
           - [install: MariaDB repository: mariadb](#install-mariadb-repository-mariadb-full-version)
           - [configure: server.conf](#configure-serverconf-full-version)
